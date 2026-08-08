@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "credencial")
+@Table(name = "tb_credencial")
 @Getter
 @Setter
 @ToString

@@ -1,7 +1,7 @@
 package com.br.fiap.oficina.service;
 
-import com.br.fiap.oficina.model.dto.CredencialRequest;
-import com.br.fiap.oficina.model.dto.CredencialResponse;
+import com.br.fiap.oficina.model.dto.credencial.CredencialRequest;
+import com.br.fiap.oficina.model.dto.credencial.CredencialResponse;
 import com.br.fiap.oficina.model.entity.Credencial;
 import com.br.fiap.oficina.model.enums.Perfil;
 import com.br.fiap.oficina.model.repository.CredencialRepository;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 public class CredencialService {
 
     private final PasswordEncoder encoder;
-    private final CredencialRepository credencialRepository;
+    private final CredencialRepository repository;
 
     public CredencialResponse cadastrar(CredencialRequest request) {
         Credencial credencial =
-            credencialRepository.save(Credencial.builder()
+                repository.save(Credencial.builder()
                 .login(request.login())
                 .senha(encoder.encode(request.senha()))
                 .perfil(Perfil.VISITANTE)

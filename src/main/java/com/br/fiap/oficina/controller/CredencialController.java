@@ -1,7 +1,7 @@
 package com.br.fiap.oficina.controller;
 
-import com.br.fiap.oficina.model.dto.CredencialRequest;
-import com.br.fiap.oficina.model.dto.CredencialResponse;
+import com.br.fiap.oficina.model.dto.credencial.CredencialRequest;
+import com.br.fiap.oficina.model.dto.credencial.CredencialResponse;
 import com.br.fiap.oficina.service.CredencialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

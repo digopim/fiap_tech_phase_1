@@ -1,4 +1,4 @@
-package com.br.fiap.oficina.model.dto;
+package com.br.fiap.oficina.model.dto.credencial;
 
 import com.br.fiap.oficina.controller.validation.CpfouCnpj;
 import jakarta.validation.constraints.NotBlank;
