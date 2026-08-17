@@ -3,7 +3,7 @@ package com.br.fiap.oficina.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "tb_veiculo")
 @Getter
 @Setter
 @ToString

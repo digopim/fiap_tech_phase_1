@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
+@Entity(name = "tb_orcamento")
 @Getter
 @Setter
 @RequiredArgsConstructor

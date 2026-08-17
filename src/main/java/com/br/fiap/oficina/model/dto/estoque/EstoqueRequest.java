@@ -15,16 +15,16 @@ public record EstoqueRequest(
         Integer minimo,
         Insumo tipo) {
 
-    public Material toEntity() {
-        return Material.builder()
-                .id(id)
-                .nome(nome)
-                .descricao(descricao)
-                .custo(custo)
-                .preco(preco)
-                .quantidade(quantidade)
-                .minimo(minimo)
-                .tipo(tipo)
-                .build();
-    }
+//    public Material toEntity() {
+//        return Material.builder()
+//                .id(id)
+//                .nome(nome)
+//                .descricao(descricao)
+//                .custo(custo)
+//                .preco(preco)
+//                .quantidade(quantidade)
+//                .minimo(minimo)
+//                .tipo(tipo)
+//                .build();
+//    }
 }

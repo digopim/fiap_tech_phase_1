@@ -1,12 +1,13 @@
 package com.br.fiap.oficina.model.entity;
 
+import com.br.fiap.oficina.model.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
+@Entity(name = "tb_ordem_servico")
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class OrdemServico {
     private Long id;
 
     @Column
-    private String status;
+    private Status status;
 
     @Column
     private String observacoes;
@@ -27,6 +28,8 @@ public class OrdemServico {
     private LocalDateTime dataCriacao;
     private LocalDateTime dataInicio;
     private LocalDateTime dataConclusao;
+
+    private Double valorTotal;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")

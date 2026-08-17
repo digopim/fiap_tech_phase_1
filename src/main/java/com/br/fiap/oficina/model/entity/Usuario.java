@@ -4,7 +4,7 @@ import com.br.fiap.oficina.model.enums.Perfil;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "tb_usuario")
 @Getter
 @Setter
 @ToString
