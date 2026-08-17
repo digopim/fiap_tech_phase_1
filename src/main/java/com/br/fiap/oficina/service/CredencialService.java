@@ -21,9 +21,8 @@ public class CredencialService {
                 repository.save(Credencial.builder()
                 .login(request.login())
                 .senha(encoder.encode(request.senha()))
-                .perfil(Perfil.VISITANTE)
                 .build());
-        return new CredencialResponse(credencial.getId(), credencial.getLogin(), credencial.getPerfil());
+        return new CredencialResponse(credencial.getId(), credencial.getLogin());
     }
 
     public boolean validar(CredencialRequest request) {

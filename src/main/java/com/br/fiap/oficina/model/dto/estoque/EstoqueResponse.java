@@ -1,6 +1,6 @@
 package com.br.fiap.oficina.model.dto.estoque;
 
-import com.br.fiap.oficina.model.entity.Estoque;
+import com.br.fiap.oficina.model.entity.Material;
 import com.br.fiap.oficina.model.enums.Insumo;
 import lombok.Builder;
 
@@ -12,13 +12,13 @@ public record EstoqueResponse(
         Integer quantidade,
         Insumo tipo) {
 
-    public static EstoqueResponse from(Estoque estoque) {
+    public static EstoqueResponse from(Material material) {
         return EstoqueResponse.builder()
-                .nome(estoque.getNome())
-                .descricao(estoque.getDescricao())
-                .preco(estoque.getPreco())
-                .quantidade(estoque.getQuantidade())
-                .tipo(estoque.getTipo())
+                .nome(material.getNome())
+                .descricao(material.getDescricao())
+                .preco(material.getPreco())
+                .quantidade(material.getQuantidade())
+                .tipo(material.getTipo())
                 .build();
     }
 

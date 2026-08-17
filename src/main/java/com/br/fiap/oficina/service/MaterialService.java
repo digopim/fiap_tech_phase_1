@@ -4,11 +4,11 @@ import com.br.fiap.oficina.model.dto.estoque.EstoqueRequest;
 import com.br.fiap.oficina.model.dto.estoque.EstoqueResponse;
 import com.br.fiap.oficina.model.enums.Insumo;
 import com.br.fiap.oficina.model.exception.Indisponivel;
-import com.br.fiap.oficina.model.repository.EstoqueRepository;
+import com.br.fiap.oficina.model.repository.MaterialRepository;
 
-public class EstoqueService {
+public class MaterialService {
 
-    EstoqueRepository repository;
+    MaterialRepository repository;
     CaixaService caixaService;
 
     public EstoqueResponse cadastrar(EstoqueRequest request) {

@@ -1,6 +1,5 @@
 package com.br.fiap.oficina.model.entity;
 
-import com.br.fiap.oficina.model.enums.Perfil;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,19 +25,18 @@ public class Credencial {
     @Column(name = "senha", nullable = false)
     private String senha;
 
-    @Enumerated
-    @Column(name = "perfil", nullable = false)
-    private Perfil perfil;
+    @OneToOne(mappedBy = "credencial")
+    private Usuario usuario;
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Credencial that = (Credencial) o;
-        return Objects.equals(login, that.login) && perfil == that.perfil;
+        return Objects.equals(login, that.login);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, perfil);
+        return Objects.hash(login);
     }
 }

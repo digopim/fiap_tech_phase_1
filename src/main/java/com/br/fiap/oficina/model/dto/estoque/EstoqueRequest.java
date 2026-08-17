@@ -1,6 +1,6 @@
 package com.br.fiap.oficina.model.dto.estoque;
 
-import com.br.fiap.oficina.model.entity.Estoque;
+import com.br.fiap.oficina.model.entity.Material;
 import com.br.fiap.oficina.model.enums.Insumo;
 import lombok.Builder;
 
@@ -15,8 +15,8 @@ public record EstoqueRequest(
         Integer minimo,
         Insumo tipo) {
 
-    public Estoque toEntity() {
-        return Estoque.builder()
+    public Material toEntity() {
+        return Material.builder()
                 .id(id)
                 .nome(nome)
                 .descricao(descricao)
