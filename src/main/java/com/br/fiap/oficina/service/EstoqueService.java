@@ -1,39 +1,49 @@
 package com.br.fiap.oficina.service;
 
 import com.br.fiap.oficina.model.dto.estoque.EstoqueRequest;
-import com.br.fiap.oficina.model.dto.estoque.EstoqueResponse;
 import com.br.fiap.oficina.model.enums.Insumo;
 import com.br.fiap.oficina.model.exception.Indisponivel;
 import com.br.fiap.oficina.model.repository.EstoqueRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import static com.br.fiap.oficina.model.enums.Fluxo.SAIDA;
+import static com.br.fiap.oficina.model.enums.Origem.ESTOQUE;
 
 public class EstoqueService {
 
     EstoqueRepository repository;
     CaixaService caixaService;
-    MaterialService materialService;
 
-    public EstoqueResponse cadastrar(EstoqueRequest request) {
-        return EstoqueResponse.from(repository.save(request.toEntity()));
+    public void atualizarMinimo(EstoqueRequest request) {
+        var item = repository.findByMaterial_Id(request.materialId());
+        item.setMinimo(request.quantidade());
+        repository.save(item);
     }
 
-    public EstoqueResponse debitar(EstoqueRequest request) {
-        var item = repository.findById(request.id()).orElseThrow(() -> new RuntimeException("Item não encontrado em estoque"));
+    @Transactional
+    public boolean debitar(EstoqueRequest request) {
+        var item = repository.findByMaterial_Id(request.materialId());
         if (item.getQuantidade() < request.quantidade()) {
-            throw new Indisponivel("Quantidade insuficiente em estoque");
+            throw new Indisponivel("Quantidade insuficiente em estoque {}", item.getMaterial().getNome());
         }
         item.setQuantidade(item.getQuantidade() - request.quantidade());
         repository.save(item);
-//        caixaService.registrar(request);
-        return EstoqueResponse.from(item);
+        return true;
     }
 
-//  Metodo de atualização de estoque a ser rodado via scheduler
+    @Scheduled(cron = "0 0 9 * * *") // Executa todos os dias à nove horas da manhã
     public void atualizar() {
         var estoque = repository.findAll();
         estoque.forEach(item -> {
             if(item.getQuantidade() < item.getMinimo()) {
-                int quantidadePedido = calcularPedido(item.getQuantidade(), item.getMinimo(), item.getTipo());
-//                caixaService.registrar()
+                int quantidadePedido = calcularPedido(item.getQuantidade(), item.getMinimo(), item.getMaterial().getTipo());
+                if(caixaService.registrar(item.getMaterial().getNome(),
+                        item.getMaterial().getCusto() * quantidadePedido,
+                        SAIDA, ESTOQUE)){
+                    item.setQuantidade(item.getQuantidade() + quantidadePedido);
+                    repository.save(item);
+                }
             }
         });
     }

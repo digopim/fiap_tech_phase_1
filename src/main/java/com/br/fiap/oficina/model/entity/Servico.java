@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Servico {
 
     @Id
