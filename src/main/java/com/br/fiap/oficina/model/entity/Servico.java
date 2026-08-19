@@ -3,10 +3,12 @@ package com.br.fiap.oficina.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Entity(name = "tb_servico")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,11 +25,13 @@ public class Servico {
     @Column
     private String descricao;
 
-    @Column
-    private Double preco;
+    @Column(precision = 10, scale = 4)
+    private BigDecimal custo;
+
+    @Column(precision = 10, scale = 4)
+    private BigDecimal valor;
 
     @Column
     private Integer duracao;
-
 
 }

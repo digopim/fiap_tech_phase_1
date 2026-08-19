@@ -1,5 +1,6 @@
 package com.br.fiap.oficina.model.entity;
 
+import com.br.fiap.oficina.model.enums.TipoVeiculo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,6 +10,7 @@ import lombok.*;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +21,7 @@ public class Veiculo {
     private String placa;
 
     @Column
-    private String marca;
+    private String montadora;
 
     @Column
     private String modelo;
@@ -28,7 +30,7 @@ public class Veiculo {
     private String cor;
 
     @Column
-    private String tipo;
+    private TipoVeiculo tipo;
 
     @Column
     private String chassi;

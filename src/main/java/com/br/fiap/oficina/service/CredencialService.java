@@ -3,7 +3,6 @@ package com.br.fiap.oficina.service;
 import com.br.fiap.oficina.model.dto.credencial.CredencialRequest;
 import com.br.fiap.oficina.model.dto.credencial.CredencialResponse;
 import com.br.fiap.oficina.model.entity.Credencial;
-import com.br.fiap.oficina.model.enums.Perfil;
 import com.br.fiap.oficina.model.repository.CredencialRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

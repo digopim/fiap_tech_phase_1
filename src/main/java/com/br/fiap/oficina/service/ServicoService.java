@@ -10,18 +10,25 @@ public class ServicoService {
 
     ServicoRepository repository;
 
+    public Servico buscarServicoPorId(Long id) {
+        return repository.findById(id).orElseThrow();
+    }
+
+    public List<Servico> buscarServicosPorIds(List<Long> ids) {
+        return repository.findByIdInAllIgnoreCase(ids);
+    }
+
     public List<Servico> listarServicos() {
         return (List<Servico>) repository.findAll();
     }
 
     public void cadastrarServico(String nome, String descricao, Double preco, Integer duracao) {
-        var servico = Servico.builder()
+        repository.save(Servico.builder()
                 .nome(nome)
                 .descricao(descricao)
-                .preco(preco)
+                .valor(preco)
                 .duracao(duracao)
-                .build();
-        repository.save(servico);
+                .build());
     }
 
     public void deletarServico(Long id) {
@@ -33,7 +40,7 @@ public class ServicoService {
         var servico = repository.findById(id).orElseThrow();
         servico.setNome(nome);
         servico.setDescricao(descricao);
-        servico.setPreco(preco);
+        servico.setValor(preco);
         servico.setDuracao(duracao);
         repository.save(servico);
     }

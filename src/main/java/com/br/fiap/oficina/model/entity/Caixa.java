@@ -5,6 +5,7 @@ import com.br.fiap.oficina.model.enums.Origem;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Builder
@@ -22,8 +23,8 @@ public class Caixa {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @Column(name = "valor", nullable = false)
-    private Double valor;
+    @Column(name = "valor", nullable = false, precision = 10, scale = 4)
+    private BigDecimal valor;
 
     @Enumerated
     @Column(name = "fluxo", nullable = false)

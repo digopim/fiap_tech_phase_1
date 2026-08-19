@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.math.BigDecimal;
+
 
 @Builder
 @Entity(name = "tb_material")
@@ -27,11 +29,11 @@ public class Material {
     @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "custo")
-    private Double custo;
+    @Column(name = "custo", precision = 10, scale = 4)
+    private BigDecimal custo;
 
-    @Column(name = "valor")
-    private Double valor;
+    @Column(name = "valor", precision = 10, scale = 4)
+    private BigDecimal valor;
 
     @Enumerated
     @Column(name = "tipo", nullable = false)

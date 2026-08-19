@@ -3,7 +3,10 @@ package com.br.fiap.oficina.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "tb_orcamento")
@@ -11,6 +14,7 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Orcamento {
 
     @Id
@@ -18,35 +22,24 @@ public class Orcamento {
     @Column(nullable = false)
     private Long id;
 
-    private LocalDateTime dataCriacao;
+    @Builder.Default
+    private LocalDateTime dataCriacao = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
 
     private LocalDateTime dataAprovacao;
 
     private LocalDateTime dataConclusao;
 
-    private Double valor;
-
-    private Boolean aprovado;
+    @Column(name = "valor", nullable = false, precision = 10, scale = 4)
+    private BigDecimal valor;
 
     @ManyToOne
     @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
 
-    @ManyToMany
-    @JoinTable(
-        name = "orcamento_servico",
-        joinColumns = @JoinColumn(name = "orcamento_id"),
-        inverseJoinColumns = @JoinColumn(name = "servico_id")
-    )
-    private List<Servico> servicos;
+    @OneToMany(mappedBy = "orcamento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemServico> servicos = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "orcamento_material",
-        joinColumns = @JoinColumn(name = "orcamento_id"),
-        inverseJoinColumns = @JoinColumn(name = "material_id")
-    )
-    private List<Material> materiais;
-
+    @OneToMany(mappedBy = "orcamento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemMaterial> materiais = new ArrayList<>();
 
 }
