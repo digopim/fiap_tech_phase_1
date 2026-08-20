@@ -6,6 +6,7 @@ import com.br.fiap.oficina.model.enums.Origem;
 import com.br.fiap.oficina.model.repository.CaixaRepository;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class CaixaService {
 
     CaixaRepository repository;
 
-    public boolean registrar(String descricao, Double valor, Fluxo fluxo, Origem origem) {
+    public boolean registrar(String descricao, BigDecimal valor, Fluxo fluxo, Origem origem) {
         repository.save(Caixa.builder()
                 .descricao(descricao)
                 .valor(valor)
@@ -28,24 +29,27 @@ public class CaixaService {
         return true;
     }
 
-    public Double calcularSaldoTotal() {
-        return repository.findByFluxo(Fluxo.ENTRADA).stream().mapToDouble(Caixa::getValor).sum() -
-                repository.findByFluxo(Fluxo.SAIDA).stream().mapToDouble(Caixa::getValor).sum();
+    public BigDecimal calcularSaldoTotal() {
+        return repository.findByFluxo(Fluxo.ENTRADA).stream().map(Caixa::getValor).reduce(BigDecimal.ZERO, BigDecimal::add)
+                .subtract(repository.findByFluxo(Fluxo.SAIDA).stream().map(Caixa::getValor).reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 
-    public Double calcularSaldoPorOrigem(Origem origem) {
-        return repository.findByOrigem(origem).stream().mapToDouble(Caixa::getValor).sum();
+    public BigDecimal calcularSaldoPorOrigem(Origem origem) {
+        return repository.findByOrigem(origem).stream().map(Caixa::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public Double calcularSaldoPorData(@NotNull LocalDateTime dataInicio, @NotNull LocalDateTime dataFim) {
-        return repository.findByFluxoAndDataBetween(Fluxo.ENTRADA, dataInicio, dataFim).stream().mapToDouble(Caixa::getValor).sum() -
-                repository.findByFluxoAndDataBetween(Fluxo.SAIDA, dataInicio, dataFim).stream().mapToDouble(Caixa::getValor).sum();
+    public BigDecimal calcularSaldoPorData(@NotNull LocalDateTime dataInicio, @NotNull LocalDateTime dataFim) {
+        return repository.findByFluxoAndDataBetween(Fluxo.ENTRADA, dataInicio, dataFim).stream()
+                .map(Caixa::getValor).reduce(BigDecimal.ZERO, BigDecimal::add)
+                .subtract(
+                repository.findByFluxoAndDataBetween(Fluxo.SAIDA, dataInicio, dataFim).stream()
+                .map(Caixa::getValor).reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 
-    public Map<Origem, Double> calcularSaldoPorOrigem(@NotNull LocalDateTime dataInicio, @NotNull LocalDateTime dataFim) {
-        Map<Origem, Double> saldoPorOrigem = new HashMap<>();
+    public Map<Origem, BigDecimal> calcularSaldoPorOrigem(@NotNull LocalDateTime dataInicio, @NotNull LocalDateTime dataFim) {
+        Map<Origem, BigDecimal> saldoPorOrigem = new HashMap<>();
         for (Origem origem : Origem.values()) {
-            double saldo = repository.findByOrigemAndDataBetween(origem, dataInicio, dataFim).stream().mapToDouble(Caixa::getValor).sum();
+            BigDecimal saldo = repository.findByOrigemAndDataBetween(origem, dataInicio, dataFim).stream().map(Caixa::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
             saldoPorOrigem.put(origem, saldo);
         }
         return saldoPorOrigem;

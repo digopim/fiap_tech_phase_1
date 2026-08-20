@@ -7,6 +7,8 @@ import com.br.fiap.oficina.model.repository.EstoqueRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.math.BigDecimal;
+
 import static com.br.fiap.oficina.model.enums.Fluxo.SAIDA;
 import static com.br.fiap.oficina.model.enums.Origem.ESTOQUE;
 
@@ -39,7 +41,7 @@ public class EstoqueService {
             if(item.getQuantidade() < item.getMinimo()) {
                 int quantidadePedido = calcularPedido(item.getQuantidade(), item.getMinimo(), item.getMaterial().getTipo());
                 if(caixaService.registrar(item.getMaterial().getNome(),
-                        item.getMaterial().getCusto() * quantidadePedido,
+                        item.getMaterial().getCusto().multiply(BigDecimal.valueOf(quantidadePedido)),
                         SAIDA, ESTOQUE)){
                     item.setQuantidade(item.getQuantidade() + quantidadePedido);
                     repository.save(item);
