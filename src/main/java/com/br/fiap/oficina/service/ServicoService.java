@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class ServicoService {
 
-    ServicoRepository repository;
+    private ServicoRepository repository;
 
     public Servico buscarServicoPorId(Long id) {
         return repository.findById(id).orElseThrow();

@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,9 @@ public class Ordem {
     @Column
     private String observacoes;
 
-    private LocalDateTime dataCriacao;
+    @Column
+    @Builder.Default
+    private LocalDateTime dataCriacao = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
     private LocalDateTime dataInicio;
     private LocalDateTime dataConclusao;
     private LocalDateTime dataPagamento;
@@ -40,7 +43,16 @@ public class Ordem {
     @JoinColumn(name = "usuario_id")
     private Usuario responsavel;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "veiculo_id")
+    private Veiculo veiculo;
+
+
     @Builder.Default
-    @OneToMany(mappedBy = "ordem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ordem", cascade = CascadeType.ALL, fetch =  FetchType.EAGER)
     private List<Orcamento> orcamentos = new ArrayList<>();
 }

@@ -15,8 +15,8 @@ import java.util.List;
 @Service
 public class MaterialService {
 
-    MaterialRepository repository;
-    EstoqueRepository estoqueRepository;
+    private MaterialRepository repository;
+    private EstoqueRepository estoqueRepository;
 
     public List<Material> buscarMateriaisPorIds(List<Long> ids) {
         return repository.findByIdIn(ids);

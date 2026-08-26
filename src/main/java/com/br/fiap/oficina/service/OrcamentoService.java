@@ -11,15 +11,13 @@ import java.time.LocalDateTime;
 @Service
 public class OrcamentoService {
 
-    OrcamentoRepository repository;
-    VeiculoService veiculoService;
-    ServicoService servicoService;
-    MaterialService materialService;
+    private OrcamentoRepository repository;
+    private ServicoService servicoService;
+    private MaterialService materialService;
 
     // Criar orçamento de serviço
-    public void criarOrcamento(OrcamentoRequest request) {
-        Veiculo veiculo = veiculoService.buscarVeiculoPorId(request.veiculoId());
-        Orcamento orcamento = Orcamento.builder().veiculo(veiculo).build();
+    public Orcamento criarOrcamento(OrcamentoRequest request) {
+        Orcamento orcamento = Orcamento.builder().build();
 
         request.servicos().forEach((servicoId, quantidade) -> {
             Servico servico = servicoService.buscarServicoPorId(servicoId);
@@ -42,7 +40,7 @@ public class OrcamentoService {
         });
 
         calcularValorTotal(orcamento);
-        repository.save(orcamento);
+        return repository.save(orcamento);
     }
 
     public void aprovarOrcamento(Long orcamentoId, boolean aprovado) {

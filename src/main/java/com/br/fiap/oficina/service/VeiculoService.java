@@ -1,9 +1,8 @@
 package com.br.fiap.oficina.service;
+
 import com.br.fiap.oficina.model.dto.veiculo.VeiculoRequest;
-import com.br.fiap.oficina.model.entity.Servico;
 import com.br.fiap.oficina.model.entity.Veiculo;
 import com.br.fiap.oficina.model.enums.TipoVeiculo;
-import com.br.fiap.oficina.model.repository.ServicoRepository;
 import com.br.fiap.oficina.model.repository.VeiculoRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,7 @@ import java.util.List;
 @Service
 public class VeiculoService {
 
-    VeiculoRepository repository;
+    private VeiculoRepository repository;
 
     public List<Veiculo> listarVeiculos() {
         return (List<Veiculo>) repository.findAll();
@@ -35,6 +34,8 @@ public class VeiculoService {
                 .cor(request.cor())
                 .tipo(TipoVeiculo.valueOf(request.tipo()))
                 .chassi(request.chassi())
+                .anoFabricacao(request.anoFabricacao())
+                .quilometragem(request.quilometragem())
                 .build();
         repository.save(veiculo);
     }

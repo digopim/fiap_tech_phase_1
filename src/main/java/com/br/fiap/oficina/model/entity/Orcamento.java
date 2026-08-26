@@ -32,10 +32,6 @@ public class Orcamento {
     @Column(name = "valor", nullable = false, precision = 10, scale = 4)
     private BigDecimal valor;
 
-    @ManyToOne
-    @JoinColumn(name = "veiculo_id")
-    private Veiculo veiculo;
-
     @OneToMany(mappedBy = "orcamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemServico> servicos = new ArrayList<>();
 

@@ -35,4 +35,10 @@ public class Veiculo {
     @Column
     private String chassi;
 
+    @Column
+    private Integer anoFabricacao;
+
+    @Column
+    private Integer quilometragem;
+
 }

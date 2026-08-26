@@ -14,8 +14,8 @@ import static com.br.fiap.oficina.model.enums.Origem.ESTOQUE;
 
 public class EstoqueService {
 
-    EstoqueRepository repository;
-    CaixaService caixaService;
+    private EstoqueRepository repository;
+    private CaixaService caixaService;
 
     public void atualizarMinimo(EstoqueRequest request) {
         var item = repository.findByMaterial_Id(request.materialId());

@@ -16,7 +16,7 @@ import static java.time.LocalDateTime.now;
 
 public class CaixaService {
 
-    CaixaRepository repository;
+    private CaixaRepository repository;
 
     public boolean registrar(String descricao, BigDecimal valor, Fluxo fluxo, Origem origem) {
         repository.save(Caixa.builder()
