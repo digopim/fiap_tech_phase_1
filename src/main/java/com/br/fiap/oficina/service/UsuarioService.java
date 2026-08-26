@@ -13,7 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsuarioService {
     private final UsuarioRepository repository;
-n    public List<Usuario> listarUsuarios() {
+
+    public List<Usuario> listarUsuarios() {
         return (List<Usuario>) repository.findAll();
     }
 
@@ -37,7 +38,8 @@ public class UsuarioService {
                 .build();
         return repository.save(usuario);
     }
-n    public Usuario atualizarUsuario(Long id, UsuarioRequest request) {
+
+    public Usuario atualizarUsuario(Long id, UsuarioRequest request) {
         var usuario = repository.findById(id).orElseThrow();
         usuario.setNome(request.nome());
         usuario.setSobrenome(request.sobrenome());
@@ -47,8 +49,10 @@ public class UsuarioService {
         usuario.setPerfil(request.perfil() != null ? Perfil.valueOf(request.perfil()) : null);
         return repository.save(usuario);
     }
-n    public void deletarUsuario(Long id) {
+
+    public void deletarUsuario(Long id) {
         var usuario = repository.findById(id).orElseThrow();
         repository.delete(usuario);
     }
-n}
+
+}
