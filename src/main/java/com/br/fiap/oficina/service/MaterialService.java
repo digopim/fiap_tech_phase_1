@@ -8,36 +8,41 @@ import com.br.fiap.oficina.model.enums.Insumo;
 import com.br.fiap.oficina.model.repository.EstoqueRepository;
 import com.br.fiap.oficina.model.repository.MaterialRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MaterialService {
 
-    private MaterialRepository repository;
-    private EstoqueRepository estoqueRepository;
+    private final MaterialRepository repository;
+    private final EstoqueRepository estoqueRepository;
 
     public List<Material> buscarMateriaisPorIds(List<Long> ids) {
         return repository.findByIdIn(ids);
     }
 
     @Transactional
-    public void cadastrarMaterial(MaterialRequest request) {
-        var material = repository.save(Material.builder()
+    public Material cadastrarMaterial(MaterialRequest request) {
+        var material = Material.builder()
+                .id(request.id())
                 .nome(request.nome())
                 .descricao(request.descricao())
                 .valor(request.valor())
                 .custo(request.custo())
-                .tipo(Insumo.valueOf(request.tipo()))
-                .build());
+                .tipo(request.tipo() != null ? Insumo.valueOf(request.tipo()) : null)
+                .build();
+        var salvo = repository.save(material);
 
         estoqueRepository.save(Estoque.builder()
-                        .material(material)
-                        .quantidade(0)
-                        .minimo(1)
-                        .build()
+                .material(salvo)
+                .quantidade(0)
+                .minimo(1)
+                .build()
         );
+        return salvo;
     }
 
     public void deletarMaterial(Long id) {
@@ -45,14 +50,14 @@ public class MaterialService {
         repository.delete(material);
     }
 
-    public void atualizarMaterial(Long id, MaterialRequest request) {
+    public Material atualizarMaterial(Long id, MaterialRequest request) {
         var material = repository.findById(id).orElseThrow();
         material.setNome(request.nome());
         material.setDescricao(request.descricao());
         material.setValor(request.valor());
         material.setCusto(request.custo());
-        material.setTipo(Insumo.valueOf(request.tipo()));
-        repository.save(material);
+        material.setTipo(request.tipo() != null ? Insumo.valueOf(request.tipo()) : null);
+        return repository.save(material);
     }
 
     public List<MaterialResponse> listarMateriais() {

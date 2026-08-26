@@ -2,7 +2,9 @@ package com.br.fiap.oficina.model.dto.material;
 
 import com.br.fiap.oficina.model.entity.Material;
 
-public record MaterialResponse(Long id, String nome, String descricao, Double valor, Double custo, String tipo) {
+import java.math.BigDecimal;
+
+public record MaterialResponse(Long id, String nome, String descricao, BigDecimal valor, BigDecimal custo, String tipo) {
 
 
     public static MaterialResponse fromEntity(Material material) {

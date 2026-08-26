@@ -1,15 +1,18 @@
 package com.br.fiap.oficina.service;
+
+import com.br.fiap.oficina.model.dto.servico.ServicoRequest;
 import com.br.fiap.oficina.model.entity.Servico;
 import com.br.fiap.oficina.model.repository.ServicoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ServicoService {
 
-    private ServicoRepository repository;
+    private final ServicoRepository repository;
 
     public Servico buscarServicoPorId(Long id) {
         return repository.findById(id).orElseThrow();
@@ -23,27 +26,31 @@ public class ServicoService {
         return (List<Servico>) repository.findAll();
     }
 
-    public void cadastrarServico(String nome, String descricao, BigDecimal preco, Integer duracao) {
-        repository.save(Servico.builder()
-                .nome(nome)
-                .descricao(descricao)
-                .valor(preco)
-                .duracao(duracao)
-                .build());
+    public Servico cadastrarServico(ServicoRequest request) {
+        var servico = Servico.builder()
+                .id(request.id())
+                .nome(request.nome())
+                .descricao(request.descricao())
+                .custo(request.custo())
+                .valor(request.valor())
+                .duracao(request.duracao())
+                .build();
+        return repository.save(servico);
+    }
+
+    public Servico atualizarServico(Long id, ServicoRequest request) {
+        var servico = repository.findById(id).orElseThrow();
+        servico.setNome(request.nome());
+        servico.setDescricao(request.descricao());
+        servico.setCusto(request.custo());
+        servico.setValor(request.valor());
+        servico.setDuracao(request.duracao());
+        return repository.save(servico);
     }
 
     public void deletarServico(Long id) {
         var servico = repository.findById(id).orElseThrow();
         repository.delete(servico);
-    }
-
-    public void atualizarServico(Long id, String nome, String descricao, BigDecimal preco, Integer duracao) {
-        var servico = repository.findById(id).orElseThrow();
-        servico.setNome(nome);
-        servico.setDescricao(descricao);
-        servico.setValor(preco);
-        servico.setDuracao(duracao);
-        repository.save(servico);
     }
 
 }
