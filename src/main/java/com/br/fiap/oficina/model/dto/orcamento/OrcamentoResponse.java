@@ -15,6 +15,7 @@ public record OrcamentoResponse(
         LocalDateTime dataAprovacao,
         LocalDateTime dataConclusao,
         BigDecimal valor,
+        String estimativa,
         Map<String, BigDecimal> servicos,
         Map<String, BigDecimal> materiais,
         String status
@@ -25,6 +26,7 @@ public record OrcamentoResponse(
         Map<String, BigDecimal> materiais = new HashMap<>();
         orcamento.getServicos().forEach(servico -> servicos.put(servico.getServico().getNome(), servico.getServico().getValor()));
         orcamento.getMateriais().forEach(material -> materiais.put(material.getMaterial().getNome(), material.getMaterial().getValor()));
+        Integer estimativa = orcamento.getServicos().stream().mapToInt(s -> s.getServico().getDuracao()).sum();
 
         return OrcamentoResponse.builder()
                 .id(orcamento.getId())
@@ -34,6 +36,7 @@ public record OrcamentoResponse(
                 .valor(orcamento.getValor())
                 .servicos(servicos)
                 .materiais(materiais)
+                .estimativa("Estimativa de duração do serviço: " + estimativa + " horas")
                 .status(obterStatus(orcamento))
                 .build();
     }
