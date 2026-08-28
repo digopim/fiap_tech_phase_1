@@ -32,9 +32,14 @@ public class Orcamento {
     @Column(name = "valor", nullable = false, precision = 10, scale = 4)
     private BigDecimal valor;
 
+    @ManyToOne
+    private Ordem ordem;
+
+    @Builder.Default
     @OneToMany(mappedBy = "orcamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemServico> servicos = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "orcamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemMaterial> materiais = new ArrayList<>();
 

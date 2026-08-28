@@ -16,6 +16,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final JwtUtil jwtUtil;
+
+    public SecurityConfig(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
@@ -28,9 +34,10 @@ public class SecurityConfig {
             .sessionManagement( session -> session.sessionCreationPolicy(STATELESS))
             .authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/api/**").authenticated()
+                .requestMatchers("/auth/**", "/credencial/**").permitAll()
                 .anyRequest().permitAll()
             )
-//                .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
             ;
         return http.build();
     }

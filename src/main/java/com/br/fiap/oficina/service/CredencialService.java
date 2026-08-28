@@ -7,6 +7,7 @@ import com.br.fiap.oficina.model.repository.CredencialRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -25,7 +26,11 @@ public class CredencialService {
     }
 
     public boolean validar(CredencialRequest request) {
-        String hash = encoder.encode(request.senha());
-        return hash == null || encoder.matches(request.senha(), hash);
+        Optional<Credencial> maybe = repository.findByLogin(request.login());
+        return maybe.map(c -> encoder.matches(request.senha(), c.getSenha())).orElse(false);
+    }
+
+    public Optional<Credencial> buscarPorLogin(String login) {
+        return repository.findByLogin(login);
     }
 }

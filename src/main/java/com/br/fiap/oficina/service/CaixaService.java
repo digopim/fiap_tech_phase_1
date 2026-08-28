@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import static java.time.LocalDateTime.now;
@@ -47,7 +47,7 @@ public class CaixaService {
     }
 
     public Map<Origem, BigDecimal> calcularSaldoPorOrigem(@NotNull LocalDateTime dataInicio, @NotNull LocalDateTime dataFim) {
-        Map<Origem, BigDecimal> saldoPorOrigem = new HashMap<>();
+        Map<Origem, BigDecimal> saldoPorOrigem = new EnumMap<>(Origem.class);
         for (Origem origem : Origem.values()) {
             BigDecimal saldo = repository.findByOrigemAndDataBetween(origem, dataInicio, dataFim).stream().map(Caixa::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
             saldoPorOrigem.put(origem, saldo);

@@ -25,7 +25,8 @@ public class Credencial {
     @Column(name = "senha", nullable = false)
     private String senha;
 
-    @OneToOne(mappedBy = "credencial")
+    @OneToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
 
     @Override

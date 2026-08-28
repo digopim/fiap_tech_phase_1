@@ -32,7 +32,10 @@ public class Usuario {
     @Column
     private String telefone;
 
-    @Enumerated
+    @OneToOne(mappedBy = "usuario")
+    private Credencial credencial;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Perfil perfil;
 }

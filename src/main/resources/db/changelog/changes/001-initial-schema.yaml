@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-initial-schema
+      author: system
+      changes:
+        - sql:
+            sql: SELECT 1
+

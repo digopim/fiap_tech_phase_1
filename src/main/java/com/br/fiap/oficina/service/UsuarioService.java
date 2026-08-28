@@ -1,4 +1,4 @@
-﻿package com.br.fiap.oficina.service;
+package com.br.fiap.oficina.service;
 
 import com.br.fiap.oficina.model.dto.usuario.UsuarioRequest;
 import com.br.fiap.oficina.model.entity.Usuario;

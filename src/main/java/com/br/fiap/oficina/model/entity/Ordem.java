@@ -40,11 +40,11 @@ public class Ordem {
     private BigDecimal valorTotal;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "responsavel_id")
     private Usuario responsavel;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "cliente_id")
     private Usuario cliente;
 
     @ManyToOne

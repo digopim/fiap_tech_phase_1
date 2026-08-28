@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class VeiculoController {
         var lista = service.listarVeiculos()
                 .stream()
                 .map(this::toResponse)
-                .collect(Collectors.toList());
+                .toList();
         return ResponseEntity.ok(lista);
     }
 

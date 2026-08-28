@@ -27,6 +27,9 @@ public class OrdemService {
     private VeiculoService veiculoService;
     private UsuarioService usuarioService;
 
+    private static final String MSG_NAO_ENCONTRADO = "Ordem não encontrada";
+    private static final ZoneId ZONE_ID = ZoneId.of("America/Sao_Paulo");
+
     public OrdemResponse criarOrdem(OrdemRequest request) {
         if(!request.formulario().inspecao()) {
             throw new IllegalArgumentException("CheckList Não Concluido");
@@ -47,7 +50,7 @@ public class OrdemService {
     // Incluir Orcamento
     @Transactional
     public OrdemResponse incluirOrcamento(Long ordemId, OrcamentoRequest orcamentoRequest) {
-        Ordem os = repository.findById(ordemId).orElseThrow(() -> new NoSuchElementException("Ordem não encontrada"));
+        Ordem os = repository.findById(ordemId).orElseThrow(() -> new NoSuchElementException(MSG_NAO_ENCONTRADO));
 
         if(!os.getStatus().equals(Status.RECEBIDA) && !os.getStatus().equals(Status.EM_DIAGNOSTICO) ) {
             throw new IllegalArgumentException("Não é possível incluir orçamento na ordem.");
@@ -80,7 +83,7 @@ public class OrdemService {
 
         if(Status.EM_DIAGNOSTICO.equals(os.getStatus()) && os.getOrcamentos().stream().allMatch(o -> o.getDataAprovacao() != null || o.getDataConclusao() != null)){
             os.setStatus(Status.EM_EXECUCAO);
-            os.setDataInicio(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            os.setDataInicio(LocalDateTime.now(ZONE_ID));
             os = repository.save(os);
         }
         return OrdemResponse.from(os);
@@ -99,13 +102,13 @@ public class OrdemService {
 
     // Concluir OS
     public OrdemResponse concluirOrcamento(Long ordemId, Long orcamentoId) {
-        Ordem os = repository.findById(ordemId).orElseThrow(() -> new NoSuchElementException("Ordem não encontrada"));
+        Ordem os = repository.findById(ordemId).orElseThrow(() -> new NoSuchElementException(MSG_NAO_ENCONTRADO));
         var orcamento = os.getOrcamentos().stream().filter(o -> o.getId().equals(orcamentoId)).findFirst();
         orcamento.ifPresent(value -> orcamentoService.concluirOrcamento(value.getId()));
         if(Status.EM_EXECUCAO.equals(os.getStatus()) && os.getOrcamentos().stream().allMatch(o -> o.getDataConclusao() != null)){
             os.setStatus(Status.FINALIZADA);
             os.setValorTotal(calcularValorTotal(os));
-            os.setDataConclusao(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            os.setDataConclusao(LocalDateTime.now(ZONE_ID));
             repository.save(os);
         }
         return OrdemResponse.from(os);
@@ -113,12 +116,12 @@ public class OrdemService {
 
     // Pagar OS
     public OrdemResponse registrarPagamento(Long ordemId) {
-        Ordem os = repository.findById(ordemId).orElseThrow(() -> new NoSuchElementException("Ordem não encontrada"));
+        Ordem os = repository.findById(ordemId).orElseThrow(() -> new NoSuchElementException(MSG_NAO_ENCONTRADO));
         if(!Status.FINALIZADA.equals(os.getStatus()) && os.getDataPagamento() == null){
             throw new IllegalArgumentException("Apenas ordens finalizadas em aberto podem ser pagas");
         }
         os.setStatus(Status.LIBERADA);
-        os.setDataPagamento(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        os.setDataPagamento(LocalDateTime.now(ZONE_ID));
         return OrdemResponse.from(repository.save(os));
     }
 
@@ -137,9 +140,9 @@ public class OrdemService {
 
     // Cancelar OS
     public OrdemResponse cancelarOrdem(Long ordemId) {
-        Ordem os = repository.findById(ordemId).orElseThrow(() -> new NoSuchElementException("Ordem não encontrada"));
+        Ordem os = repository.findById(ordemId).orElseThrow(() -> new NoSuchElementException(MSG_NAO_ENCONTRADO));
         os.setStatus(Status.CANCELADA);
-        os.setDataConclusao(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        os.setDataConclusao(LocalDateTime.now(ZONE_ID));
         return OrdemResponse.from(repository.save(os));
     }
 
