@@ -5,13 +5,17 @@ import com.br.fiap.oficina.model.enums.Insumo;
 import com.br.fiap.oficina.model.exception.Indisponivel;
 import com.br.fiap.oficina.model.repository.EstoqueRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 import static com.br.fiap.oficina.model.enums.Fluxo.SAIDA;
 import static com.br.fiap.oficina.model.enums.Origem.ESTOQUE;
 
+@Service
+@AllArgsConstructor
 public class EstoqueService {
 
     private EstoqueRepository repository;

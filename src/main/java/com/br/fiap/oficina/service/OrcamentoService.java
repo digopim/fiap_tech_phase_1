@@ -3,12 +3,14 @@ package com.br.fiap.oficina.service;
 import com.br.fiap.oficina.model.dto.orcamento.OrcamentoRequest;
 import com.br.fiap.oficina.model.entity.*;
 import com.br.fiap.oficina.model.repository.OrcamentoRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
+@AllArgsConstructor
 public class OrcamentoService {
 
     private OrcamentoRepository repository;

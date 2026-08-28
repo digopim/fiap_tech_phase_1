@@ -9,6 +9,7 @@ import com.br.fiap.oficina.model.entity.Usuario;
 import com.br.fiap.oficina.model.entity.Veiculo;
 import com.br.fiap.oficina.model.enums.Status;
 import com.br.fiap.oficina.model.repository.OrdemRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@AllArgsConstructor
 public class OrdemService {
 
     private OrdemRepository repository;

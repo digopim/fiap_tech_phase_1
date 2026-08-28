@@ -5,6 +5,8 @@ import com.br.fiap.oficina.model.enums.Fluxo;
 import com.br.fiap.oficina.model.enums.Origem;
 import com.br.fiap.oficina.model.repository.CaixaRepository;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,6 +16,8 @@ import java.util.Map;
 
 import static java.time.LocalDateTime.now;
 
+@Service
+@AllArgsConstructor
 public class CaixaService {
 
     private CaixaRepository repository;
