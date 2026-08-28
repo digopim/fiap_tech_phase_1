@@ -1,7 +1,9 @@
 package com.br.fiap.oficina.security;
 
+import com.br.fiap.oficina.model.enums.Perfil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -31,11 +33,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement( session -> session.sessionCreationPolicy(STATELESS))
-            .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/api/**").authenticated()
+            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+            .authorizeHttpRequests(requests -> requests
+                .requestMatchers(HttpMethod.GET, "/ordem").hasAnyRole(Perfil.CLIENTE.name(), Perfil.FORNECEDOR.name(), Perfil.COLABORADOR.name(), Perfil.ADMINISTRADOR.name())
+                .requestMatchers("/material/**", "/veiculo/**", "/servico/**", "/ordem/**").hasAnyRole(Perfil.COLABORADOR.name(), Perfil.ADMINISTRADOR.name())
+                .requestMatchers("/admin/**").hasRole(Perfil.ADMINISTRADOR.name())
                 .requestMatchers("/auth/**", "/credencial/**").permitAll()
-                .anyRequest().permitAll()
             )
             .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
             ;

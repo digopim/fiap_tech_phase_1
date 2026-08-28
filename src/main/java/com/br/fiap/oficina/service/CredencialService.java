@@ -28,9 +28,9 @@ public class CredencialService {
         return CredencialResponse.builder().id(credencial.getId()).login(credencial.getLogin()).build();
     }
 
-    public boolean validar(CredencialRequest request) {
-        Optional<Credencial> maybe = repository.findByLogin(request.login());
-        return maybe.map(c -> encoder.matches(request.senha(), c.getSenha())).orElse(false);
+    public Credencial validar(String  login, String senha) {
+        Optional<Credencial> maybe = repository.findByLogin(login);
+        return maybe.filter(c -> encoder.matches(senha, c.getSenha())).orElse(null);
     }
 
     public Optional<Credencial> buscarPorLogin(String login) {
