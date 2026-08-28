@@ -7,6 +7,7 @@ import com.br.fiap.oficina.model.repository.CredencialRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
@@ -15,14 +16,16 @@ public class CredencialService {
 
     private final PasswordEncoder encoder;
     private final CredencialRepository repository;
+    private final UsuarioService usuarioService;
 
     public CredencialResponse cadastrar(CredencialRequest request) {
         Credencial credencial =
                 repository.save(Credencial.builder()
                 .login(request.login())
                 .senha(encoder.encode(request.senha()))
+                .usuario(usuarioService.novoUsuario(request.login()))
                 .build());
-        return new CredencialResponse(credencial.getId(), credencial.getLogin());
+        return CredencialResponse.builder().id(credencial.getId()).login(credencial.getLogin()).build();
     }
 
     public boolean validar(CredencialRequest request) {

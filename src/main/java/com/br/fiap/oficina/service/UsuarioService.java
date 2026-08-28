@@ -26,6 +26,10 @@ public class UsuarioService {
         return repository.findByCpfCNPJ(cpfCNPJ);
     }
 
+    public Usuario novoUsuario(String cpfCNPJ) {
+        return repository.save(Usuario.builder().cpfCNPJ(cpfCNPJ).perfil(Perfil.CLIENTE).build());
+    }
+
     public Usuario salvarUsuario(UsuarioRequest request) {
         var usuario = Usuario.builder()
                 .id(request.id())
