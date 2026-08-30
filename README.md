@@ -74,6 +74,8 @@ Ou configurar manualmente em `application.properties` / `application.yml`.
 
 A aplicação estará disponível em `http://localhost:8080`.
 
+O Swagger gerado pelo Spring Docs também está disponível em `http://localhost:8080/swagger-ui/index.html`.
+
 ## 📁 Estrutura do Projeto
 
 ```
