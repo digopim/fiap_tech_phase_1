@@ -21,7 +21,7 @@ public class CredencialController {
 
     @PutMapping("/cadastrar")
     public ResponseEntity<String> cadastrarCredencial(@RequestBody @Validated final CredencialRequest request) {
-        CredencialResponse response = service.cadastrar(request);
+        CredencialResponse response = service.cadastrar(request, null);
         return ResponseEntity.status(HttpStatus.CREATED).body("Credencial cadastrada com sucesso, Login : " + response.login());
     }
 }

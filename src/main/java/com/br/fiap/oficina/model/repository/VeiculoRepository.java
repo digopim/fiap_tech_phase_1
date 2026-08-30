@@ -3,6 +3,9 @@ package com.br.fiap.oficina.model.repository;
 import com.br.fiap.oficina.model.entity.Veiculo;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 public interface VeiculoRepository extends CrudRepository<Veiculo, Long> {
-    Veiculo findByPlaca(String placa);
+    Optional<Veiculo> findFirstByPlacaOrderByIdDesc(String placa);
+    
 }

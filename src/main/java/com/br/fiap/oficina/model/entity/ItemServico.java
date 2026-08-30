@@ -42,5 +42,5 @@ public class ItemServico {
 
     @Builder.Default
     @Column(name = "executado", nullable = false)
-    private boolean executado = true;
+    private boolean executado = false;
 }

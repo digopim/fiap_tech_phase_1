@@ -3,8 +3,6 @@ package com.br.fiap.oficina.model.entity;
 import com.br.fiap.oficina.model.enums.Insumo;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 
@@ -17,10 +15,10 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Material {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    @JdbcTypeCode(SqlTypes.INTEGER)
     private Long id;
 
     @Column(name = "nome")
@@ -35,7 +33,7 @@ public class Material {
     @Column(name = "valor", precision = 10, scale = 4)
     private BigDecimal valor;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo", nullable = false)
     private Insumo tipo;
 

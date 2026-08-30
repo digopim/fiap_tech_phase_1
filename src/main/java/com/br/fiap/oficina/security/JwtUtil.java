@@ -17,7 +17,7 @@ import java.util.Date;
 public class JwtUtil {
 
     private static final long EXPIRATION_MILLIS = 1000L * 60 * 60; // 1h
-    private static final String SECRET = "ZmlhcHBvc3RlY2hvZmljaW5h";
+    private static final String SECRET = "ZmlhcHBvc3RlY2hhcnF1aXRldHVyYXNvZnR3YXJlZmFzZTE=";
 
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 

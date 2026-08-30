@@ -5,7 +5,6 @@ import com.br.fiap.oficina.model.dto.material.MaterialResponse;
 import com.br.fiap.oficina.model.entity.Estoque;
 import com.br.fiap.oficina.model.entity.Material;
 import com.br.fiap.oficina.model.enums.Insumo;
-import com.br.fiap.oficina.model.repository.EstoqueRepository;
 import com.br.fiap.oficina.model.repository.MaterialRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.List;
 public class MaterialService {
 
     private final MaterialRepository repository;
-    private final EstoqueRepository estoqueRepository;
+    private final EstoqueService estoqueService;
 
     public List<Material> buscarMateriaisPorIds(List<Long> ids) {
         return repository.findByIdIn(ids);
@@ -36,13 +35,17 @@ public class MaterialService {
                 .build();
         var salvo = repository.save(material);
 
-        estoqueRepository.save(Estoque.builder()
+        estoqueService.salvar(Estoque.builder()
                 .material(salvo)
                 .quantidade(0)
                 .minimo(1)
                 .build()
         );
         return salvo;
+    }
+
+    public void debitarMaterial(Long materialId, Integer quantidade) {
+        estoqueService.debitar(materialId, quantidade);
     }
 
     public void deletarMaterial(Long id) {

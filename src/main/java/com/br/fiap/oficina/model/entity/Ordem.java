@@ -39,7 +39,7 @@ public class Ordem {
     @Column(name = "valor_total", nullable = false, precision = 10, scale = 4)
     private BigDecimal valorTotal;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "responsavel_id")
     private Usuario responsavel;
 

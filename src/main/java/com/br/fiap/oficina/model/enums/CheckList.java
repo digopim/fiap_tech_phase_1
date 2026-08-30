@@ -7,8 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CheckList {
 
-    CLI("Cliente cadastrado?"),
-    VEI("Veiculo cadastrado?"),
     DOC("Documentação e Objetos Pessoais: O veículo está livre de objetos pessoais de valor e com os documentos necessários?"),
     LAT("Avarias na Lataria e Pintura: O veículo apresenta riscos, amassados ou danos pré-existentes na lataria/pintura?"),
     VID("Integridade dos Vidros e Espelhos: Os vidros, para-brisa e retrovisores estão livres de trincas ou quebras?"),

@@ -32,7 +32,8 @@ public class Orcamento {
     @Column(name = "valor", nullable = false, precision = 10, scale = 4)
     private BigDecimal valor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ordem_id", nullable = false)
     private Ordem ordem;
 
     @Builder.Default

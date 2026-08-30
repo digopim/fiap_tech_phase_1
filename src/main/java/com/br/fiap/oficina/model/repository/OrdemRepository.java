@@ -13,10 +13,14 @@ public interface OrdemRepository extends CrudRepository<Ordem, Long> {
 
     List<Ordem> findByCliente_CpfCNPJIgnoreCaseAndVeiculo_PlacaIgnoreCaseAndDataConclusaoNullOrderByDataCriacaoAsc(@Nullable String cpfCNPJ, @Nullable String placa);
 
+
     Optional<Ordem> findFirstByCliente_CpfCNPJAndVeiculo_PlacaAndDataConclusaoNullOrderByDataCriacaoAsc(String cpfCNPJ, String placa);
 
     List<Ordem> findByStatus(Status status);
 
     List<Ordem> findByVeiculo_PlacaIgnoreCaseOrderByDataCriacaoAsc(String placa);
+
+    Optional<Ordem> findFirstById(Long id);
+
 
 }

@@ -3,7 +3,9 @@ package com.br.fiap.oficina.service;
 import com.br.fiap.oficina.model.dto.credencial.CredencialRequest;
 import com.br.fiap.oficina.model.dto.credencial.CredencialResponse;
 import com.br.fiap.oficina.model.entity.Credencial;
+import com.br.fiap.oficina.model.entity.Usuario;
 import com.br.fiap.oficina.model.repository.CredencialRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,13 @@ public class CredencialService {
     private final CredencialRepository repository;
     private final UsuarioService usuarioService;
 
-    public CredencialResponse cadastrar(CredencialRequest request) {
+    @Transactional
+    public CredencialResponse cadastrar(CredencialRequest request, Usuario usuario) {
         Credencial credencial =
                 repository.save(Credencial.builder()
                 .login(request.login())
                 .senha(encoder.encode(request.senha()))
-                .usuario(usuarioService.novoUsuario(request.login()))
+                .usuario(usuario != null ? usuario : usuarioService.novoUsuario(request.login()) )
                 .build());
         return CredencialResponse.builder().id(credencial.getId()).login(credencial.getLogin()).build();
     }

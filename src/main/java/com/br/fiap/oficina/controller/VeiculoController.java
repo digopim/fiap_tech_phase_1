@@ -36,7 +36,7 @@ public class VeiculoController {
     @GetMapping("/placa/{placa}")
     public ResponseEntity<VeiculoResponse> buscarPorPlaca(@PathVariable String placa) {
         var v = service.buscarVeiculoPorPlaca(placa);
-        return ResponseEntity.ok(toResponse(v));
+        return v.map(veiculo -> ResponseEntity.ok(toResponse(veiculo))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping

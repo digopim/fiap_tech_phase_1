@@ -1,5 +1,7 @@
 package com.br.fiap.oficina.controller;
 
+import com.br.fiap.oficina.model.dto.servico.ItemServicoRequest;
+import com.br.fiap.oficina.model.dto.servico.ItemServicoResponse;
 import com.br.fiap.oficina.model.dto.servico.ServicoRequest;
 import com.br.fiap.oficina.model.dto.servico.ServicoResponse;
 import com.br.fiap.oficina.model.entity.Servico;
@@ -27,6 +29,15 @@ public class ServicoController {
         return ResponseEntity.ok(lista);
     }
 
+    @GetMapping("/aberto")
+    public ResponseEntity<List<ItemServicoResponse>> listarEmAberto() {
+        var lista = service.listarItemServicosEmAberto()
+                .stream()
+                .map(ItemServicoResponse::from)
+                .toList();
+        return ResponseEntity.ok(lista);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ServicoResponse> buscarPorId(@PathVariable Long id) {
         var s = service.buscarServicoPorId(id);
@@ -39,6 +50,12 @@ public class ServicoController {
         var resp = toResponse(salvo);
         URI uri = URI.create("/servico/" + salvo.getId());
         return ResponseEntity.created(uri).body(resp);
+    }
+
+    @PostMapping("/concluir")
+    public ResponseEntity<Void> concluirServico(@RequestBody ItemServicoRequest request) {
+        service.concluirItemServico(request.id(), request.executor());
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")

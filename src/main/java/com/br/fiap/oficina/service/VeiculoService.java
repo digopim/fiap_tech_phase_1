@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +24,8 @@ public class VeiculoService {
         return repository.findById(id).orElseThrow();
     }
 
-    public Veiculo buscarVeiculoPorPlaca(String placa) {
-        return repository.findByPlaca(placa);
+    public Optional<Veiculo> buscarVeiculoPorPlaca(String placa) {
+        return repository.findFirstByPlacaOrderByIdDesc(placa);
     }
 
     public Veiculo salvarVeiculo(VeiculoRequest request) {

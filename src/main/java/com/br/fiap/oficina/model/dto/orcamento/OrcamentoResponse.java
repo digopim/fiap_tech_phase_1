@@ -24,9 +24,9 @@ public record OrcamentoResponse(
     public static OrcamentoResponse from(Orcamento orcamento) {
         Map<String, BigDecimal> servicos = new HashMap<>();
         Map<String, BigDecimal> materiais = new HashMap<>();
-        orcamento.getServicos().forEach(servico -> servicos.put(servico.getServico().getNome(), servico.getServico().getValor()));
-        orcamento.getMateriais().forEach(material -> materiais.put(material.getMaterial().getNome(), material.getMaterial().getValor()));
-        Integer estimativa = orcamento.getServicos().stream().mapToInt(s -> s.getServico().getDuracao()).sum();
+        orcamento.getServicos().forEach(servico -> servicos.put(servico.getQuantidade() + "x " + servico.getServico().getNome(), servico.getServico().getValor()));
+        orcamento.getMateriais().forEach(material -> materiais.put(material.getQuantidade() + "x " + material.getMaterial().getNome(), material.getMaterial().getValor()));
+        int estimativa = orcamento.getServicos().stream().mapToInt(s -> s.getServico().getDuracao()).sum();
 
         return OrcamentoResponse.builder()
                 .id(orcamento.getId())

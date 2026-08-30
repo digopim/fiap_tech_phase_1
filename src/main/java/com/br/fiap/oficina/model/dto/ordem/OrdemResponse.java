@@ -18,6 +18,7 @@ public record OrdemResponse(Long id, String status,
                             LocalDateTime dataPagamento,
                             BigDecimal valorTotal,
                             String responsavel,
+                            String cliente,
                             List<OrcamentoResponse> orcamentos) {
 
     public static OrdemResponse from(Ordem ordem) {
@@ -25,6 +26,7 @@ public record OrdemResponse(Long id, String status,
                 .id(ordem.getId())
                 .status(obterStatus(ordem.getStatus()))
                 .responsavel(ordem.getResponsavel().getNome())
+                .cliente(ordem.getCliente().getNome() + " " + ordem.getCliente().getSobrenome())
                 .dataCriacao(ordem.getDataCriacao())
                 .dataInicio(ordem.getDataInicio())
                 .dataConclusao(ordem.getDataConclusao())

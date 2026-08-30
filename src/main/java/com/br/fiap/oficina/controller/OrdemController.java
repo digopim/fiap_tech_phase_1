@@ -1,6 +1,8 @@
 package com.br.fiap.oficina.controller;
 
 import com.br.fiap.oficina.model.dto.orcamento.OrcamentoRequest;
+import com.br.fiap.oficina.model.dto.ordem.AprovacaoRequest;
+import com.br.fiap.oficina.model.dto.ordem.ConclusaoRequest;
 import com.br.fiap.oficina.model.dto.ordem.OrdemRequest;
 import com.br.fiap.oficina.model.dto.ordem.OrdemResponse;
 import com.br.fiap.oficina.model.enums.Status;
@@ -33,8 +35,8 @@ public class OrdemController {
     }
 
     @PostMapping("/aprovar")
-    public ResponseEntity<OrdemResponse> aprovarOrcamento(@RequestParam String cpfCNPJ, @RequestParam String placa, @RequestParam boolean aprovado) {
-        var resp = service.aprovarOrcamento(cpfCNPJ, placa, aprovado);
+    public ResponseEntity<OrdemResponse> aprovarOrcamento(@RequestParam String cpfCNPJ, @RequestParam String placa, @RequestBody AprovacaoRequest request) {
+        var resp = service.aprovarOrcamento(cpfCNPJ, placa, request.aprovado());
         return ResponseEntity.ok(resp);
     }
 
@@ -44,15 +46,15 @@ public class OrdemController {
         return ResponseEntity.ok(lista);
     }
 
-    @GetMapping("/status/{status}")
-    public ResponseEntity<List<OrdemResponse>> obterOrdensPorStatus(@PathVariable Status status) {
+    @GetMapping("/status")
+    public ResponseEntity<List<OrdemResponse>> obterOrdensPorStatus(@RequestParam Status status) {
         var lista = service.obterOrdensPorStatus(status);
         return ResponseEntity.ok(lista);
     }
 
-    @PostMapping("/{ordemId}/concluir/{orcamentoId}")
-    public ResponseEntity<OrdemResponse> concluirOrcamento(@PathVariable Long ordemId, @PathVariable Long orcamentoId) {
-        var resp = service.concluirOrcamento(ordemId, orcamentoId);
+    @PostMapping("/concluir")
+    public ResponseEntity<OrdemResponse> concluirOrcamento(@RequestBody ConclusaoRequest request) {
+        var resp = service.concluirOrcamento(request.ordem(), request.orcamento());
         return ResponseEntity.ok(resp);
     }
 
@@ -62,9 +64,9 @@ public class OrdemController {
         return ResponseEntity.ok(resp);
     }
 
-    @PostMapping("/autorizar-retirada/{placa}")
-    public ResponseEntity<List<OrdemResponse>> autorizarRetirada(@PathVariable String placa) {
-        var lista = service.autorizarRetirada(placa);
+    @PostMapping("/retirada")
+    public ResponseEntity<List<OrdemResponse>> efetuarRetirada(@RequestParam String placa) {
+        var lista = service.efetuarRetirada(placa);
         return ResponseEntity.ok(lista);
     }
 

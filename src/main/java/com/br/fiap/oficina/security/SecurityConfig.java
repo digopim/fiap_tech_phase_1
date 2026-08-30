@@ -35,10 +35,11 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers(HttpMethod.GET, "/ordem").hasAnyRole(Perfil.CLIENTE.name(), Perfil.FORNECEDOR.name(), Perfil.COLABORADOR.name(), Perfil.ADMINISTRADOR.name())
-                .requestMatchers("/material/**", "/veiculo/**", "/servico/**", "/ordem/**").hasAnyRole(Perfil.COLABORADOR.name(), Perfil.ADMINISTRADOR.name())
-                .requestMatchers("/admin/**").hasRole(Perfil.ADMINISTRADOR.name())
-                .requestMatchers("/auth/**", "/credencial/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/ordem/**").hasAnyRole(Perfil.CLIENTE.name(), Perfil.FORNECEDOR.name(), Perfil.COLABORADOR.name(), Perfil.ADMINISTRADOR.name())
+            .requestMatchers(HttpMethod.POST, "/ordem/aprovar").hasAnyRole(Perfil.CLIENTE.name(), Perfil.FORNECEDOR.name(), Perfil.COLABORADOR.name(), Perfil.ADMINISTRADOR.name())
+            .requestMatchers("/material/**", "/veiculo/**", "/servico/**", "/ordem/**").hasAnyRole(Perfil.COLABORADOR.name(), Perfil.ADMINISTRADOR.name())
+            .requestMatchers("/admin/**", "/usuario/**").hasRole(Perfil.ADMINISTRADOR.name())
+            .requestMatchers("/auth/**", "/credencial/**").permitAll()
             )
             .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
             ;

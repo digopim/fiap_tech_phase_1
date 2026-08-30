@@ -1,18 +1,24 @@
 package com.br.fiap.oficina.service;
 
 import com.br.fiap.oficina.model.dto.servico.ServicoRequest;
+import com.br.fiap.oficina.model.entity.ItemServico;
 import com.br.fiap.oficina.model.entity.Servico;
+import com.br.fiap.oficina.model.repository.ItemServicoRepository;
 import com.br.fiap.oficina.model.repository.ServicoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ServicoService {
 
+    private final UsuarioService usuarioService;
     private final ServicoRepository repository;
+    private final ItemServicoRepository itemServicoRepository;
 
     public Servico buscarServicoPorId(Long id) {
         return repository.findById(id).orElseThrow();
@@ -51,6 +57,18 @@ public class ServicoService {
     public void deletarServico(Long id) {
         var servico = repository.findById(id).orElseThrow();
         repository.delete(servico);
+    }
+
+    public List<ItemServico> listarItemServicosEmAberto() {
+        return itemServicoRepository.findByExecutadoOrderByOrcamento_DataCriacaoAsc(false);
+    }
+
+    public void concluirItemServico(Long itemServicoId, Long usuarioId) {
+        var itemServico = itemServicoRepository.findById(itemServicoId).orElseThrow();
+        itemServico.setExecutado(true);
+        itemServico.setDataExecucao(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        itemServico.setExecutor(usuarioService.buscarUsuarioPorId(usuarioId));
+        itemServicoRepository.save(itemServico);
     }
 
 }

@@ -1,6 +1,9 @@
 package com.br.fiap.oficina.model.dto.ordem;
 
-import com.br.fiap.oficina.model.entity.Usuario;
+import com.br.fiap.oficina.model.dto.usuario.UsuarioRequest;
+import com.br.fiap.oficina.model.dto.veiculo.VeiculoRequest;
+import lombok.Builder;
 
-public record OrdemRequest(String placa, Usuario responsavel, String cliente, Formulario formulario) {
+@Builder
+public record OrdemRequest(VeiculoRequest veiculo, Long responsavel, UsuarioRequest cliente, Formulario formulario) {
 }

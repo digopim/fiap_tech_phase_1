@@ -2,8 +2,6 @@ package com.br.fiap.oficina.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Builder
 @Entity(name = "tb_estoque")
@@ -17,7 +15,6 @@ public class Estoque {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
-    @JdbcTypeCode(SqlTypes.INTEGER)
     private Long id;
 
     @Column(name = "quantidade")

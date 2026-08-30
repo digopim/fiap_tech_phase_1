@@ -1,8 +1,8 @@
 package com.br.fiap.oficina.service;
 
 import com.br.fiap.oficina.model.dto.estoque.EstoqueRequest;
+import com.br.fiap.oficina.model.entity.Estoque;
 import com.br.fiap.oficina.model.enums.Insumo;
-import com.br.fiap.oficina.model.exception.Indisponivel;
 import com.br.fiap.oficina.model.repository.EstoqueRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -21,6 +21,17 @@ public class EstoqueService {
     private EstoqueRepository repository;
     private CaixaService caixaService;
 
+    public void salvar(Estoque estoque) {
+        repository.save(estoque);
+    }
+
+    @Transactional
+    public void debitar(Long materialId, Integer quantidade) {
+        var estoque = repository.findByMaterial_Id(materialId);
+        estoque.setQuantidade(estoque.getQuantidade() - quantidade);
+        repository.save(estoque);
+    }
+
     public void atualizarMinimo(EstoqueRequest request) {
         var item = repository.findByMaterial_Id(request.materialId());
         item.setMinimo(request.quantidade());
@@ -31,7 +42,7 @@ public class EstoqueService {
     public boolean debitar(EstoqueRequest request) {
         var item = repository.findByMaterial_Id(request.materialId());
         if (item.getQuantidade() < request.quantidade()) {
-            throw new Indisponivel("Quantidade insuficiente em estoque {}", item.getMaterial().getNome());
+            return false;
         }
         item.setQuantidade(item.getQuantidade() - request.quantidade());
         repository.save(item);

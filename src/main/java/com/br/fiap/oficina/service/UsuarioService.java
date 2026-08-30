@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class UsuarioService {
         return repository.findById(id).orElseThrow();
     }
 
-    public Usuario buscarUsuarioPorCpfCNPJ(String cpfCNPJ) {
+    public Optional<Usuario> buscarUsuarioPorCpfCNPJ(String cpfCNPJ) {
         return repository.findByCpfCNPJ(cpfCNPJ);
     }
 
@@ -45,12 +46,24 @@ public class UsuarioService {
 
     public Usuario atualizarUsuario(Long id, UsuarioRequest request) {
         var usuario = repository.findById(id).orElseThrow();
-        usuario.setNome(request.nome());
-        usuario.setSobrenome(request.sobrenome());
-        usuario.setEmail(request.email());
-        usuario.setCpfCNPJ(request.cpfCNPJ());
-        usuario.setTelefone(request.telefone());
-        usuario.setPerfil(request.perfil() != null ? Perfil.valueOf(request.perfil()) : null);
+        if(request.nome() != null) {
+            usuario.setNome(request.nome());
+        }
+        if(request.sobrenome() != null) {
+            usuario.setSobrenome(request.sobrenome());
+        }
+        if(request.email() != null) {
+            usuario.setEmail(request.email());
+        }
+        if(request.cpfCNPJ() != null) {
+            usuario.setCpfCNPJ(request.cpfCNPJ());
+        }
+        if(request.telefone() != null) {
+            usuario.setTelefone(request.telefone());
+        }
+        if(request.perfil() != null) {
+            usuario.setPerfil(Perfil.valueOf(request.perfil()));
+        }
         return repository.save(usuario);
     }
 

@@ -34,5 +34,5 @@ public class ItemMaterial {
 
     @Builder.Default
     @Column(name = "utilizado", nullable = false)
-    private boolean utilizado = true;
+    private boolean utilizado = false;
 }

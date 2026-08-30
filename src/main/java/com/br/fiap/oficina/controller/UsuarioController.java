@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -33,15 +32,7 @@ public class UsuarioController {
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity<UsuarioResponse> buscarPorCpf(@PathVariable("cpf") String cpf) {
         var u = service.buscarUsuarioPorCpfCNPJ(cpf);
-        return ResponseEntity.ok(toResponse(u));
-    }
-
-    @PostMapping
-    public ResponseEntity<UsuarioResponse> criar(@RequestBody UsuarioRequest request) {
-        var salvo = service.salvarUsuario(request);
-        var resp = toResponse(salvo);
-        URI uri = URI.create("/usuario/" + salvo.getId());
-        return ResponseEntity.created(uri).body(resp);
+        return u.map(usuario -> ResponseEntity.ok(toResponse(usuario))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
