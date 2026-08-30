@@ -6,7 +6,7 @@
 |------|------------|
 | Objetivo | Disponibilizar uma plataforma de gestão de oficina automotiva com controle de clientes, veículos, ordens de serviço, materiais, serviços, pagamentos e autorização de retirada, com segurança e rastreabilidade por identidade e permissões. |
 | Público-alvo | Clientes, colaboradores da oficina, fornecedores, administradores e responsáveis pela operação da manutenção automotiva. |
-| Tecnologias | Java 21/25, Spring Boot 3/4, Spring Web MVC, Spring Security, Spring Data JPA, PostgreSQL, Liquibase, JWT, Actuator, Bean Validation, Lombok, Maven/Gradle; extensível para Redis, Kafka e integrações HTTP corporativas. |
+| Tecnologias | Java 25, Spring Boot 4, Spring Web MVC, Spring Security, Spring Data JPA, PostgreSQL, Liquibase, JWT, Actuator, Bean Validation, Lombok, Maven/Gradle; extensível para Redis, Kafka e integrações HTTP corporativas. |
 | Responsável | Equipe de arquitetura e desenvolvimento do projeto de oficina. |
 | Status | Em desenvolvimento/validação de arquitetura funcional e operacional. |
 
