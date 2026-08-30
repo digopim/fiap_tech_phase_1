@@ -7,6 +7,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -14,6 +15,7 @@ import java.time.Instant;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class JwtUtil {
 
     private static final long EXPIRATION_MILLIS = 1000L * 60 * 60; // 1h
@@ -39,7 +41,8 @@ public class JwtUtil {
             String subject = claims.getSubject();
             return new String[]{subject, perfil};
         } catch (JwtException _) {
-            return null;
+            log.error("Token invalido");
+            return new String[]{};
         }
     }
 

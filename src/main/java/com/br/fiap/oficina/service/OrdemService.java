@@ -181,6 +181,11 @@ public class OrdemService {
         }
     }
 
+    //criar listagem de historico por cpf/cnpj
+
+
+    //criar listagem de historico por placa
+
 
 
 }
