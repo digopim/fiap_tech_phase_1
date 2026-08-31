@@ -48,7 +48,7 @@ class AdminControllerTest {
 
     @Test
     void obterOrdens_delegates() {
-        when(adminService.obterOrdensPorCpfCNPJ("c")).thenReturn(List.of(new OrdemResponse(null,null,null,null,null,null,null,null,null,null,null)));
+        when(adminService.obterOrdensPorCpfCNPJ("c")).thenReturn(List.of(OrdemResponse.builder().build()));
         ResponseEntity<List<OrdemResponse>> resp = controller.obterOrdensPorCpfCNPJ("c");
         assertEquals(200, resp.getStatusCode().value());
     }
