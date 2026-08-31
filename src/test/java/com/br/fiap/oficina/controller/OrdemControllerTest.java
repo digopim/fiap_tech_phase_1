@@ -36,7 +36,8 @@ class OrdemControllerTest {
     @Test
     void criar_returnsCreated() {
         var req = OrdemRequest.builder().veiculo(null).responsavel(1L).cliente(null).formulario(null).build();
-        var respObj = new OrdemResponse(null, "RECEBIDA", null, null, null, null, null, BigDecimal.ZERO, "R", "C", List.of());
+        var respObj = OrdemResponse.builder().status("RECEBIDA").valorTotal(BigDecimal.ZERO).cliente("R").responsavel("c").orcamentos(List.of()).build();
+
         when(service.criarOrdem(req)).thenReturn(respObj);
         ResponseEntity<OrdemResponse> resp = controller.criar(req);
         assertEquals(201, resp.getStatusCode().value());
@@ -44,7 +45,7 @@ class OrdemControllerTest {
 
     @Test
     void incluirOrcamento_delegates() {
-        when(service.incluirOrcamento(eq(1L), any())).thenReturn(new OrdemResponse(null, "X", null, null, null, null, null, null, null, null, List.of()));
+        when(service.incluirOrcamento(eq(1L), any())).thenReturn(OrdemResponse.builder().status("X").orcamentos(List.of()).build());
         ResponseEntity<OrdemResponse> resp = controller.incluirOrcamento(1L, new OrcamentoRequest(null, Map.of(), Map.of(), false));
         assertEquals(200, resp.getStatusCode().value());
     }
@@ -52,14 +53,14 @@ class OrdemControllerTest {
     @Test
     void aprovarOrcamento_callsService() {
         var aprov = AprovacaoRequest.builder().aprovado(true).build();
-        when(service.aprovarOrcamento("c","p", true)).thenReturn(new OrdemResponse(null, "X", null, null, null, null, null, null, null, null, List.of()));
+        when(service.aprovarOrcamento("c","p", true)).thenReturn(OrdemResponse.builder().status("X").orcamentos(List.of()).build());
         ResponseEntity<OrdemResponse> resp = controller.aprovarOrcamento("c","p", aprov);
         assertEquals(200, resp.getStatusCode().value());
     }
 
     @Test
     void obterOrdens_returnsList() {
-        when(service.obterOrdens(null, null)).thenReturn(List.of(new OrdemResponse(null,null,null,null,null,null,null,null,null,null,List.of())));
+        when(service.obterOrdens(null, null)).thenReturn(List.of(OrdemResponse.builder().orcamentos(List.of()).build()));
         ResponseEntity<List<OrdemResponse>> resp = controller.obterOrdens(null, null);
         assertEquals(200, resp.getStatusCode().value());
     }
@@ -67,7 +68,7 @@ class OrdemControllerTest {
     @Test
     void concluirOrcamento_delegates() {
         var req = ConclusaoRequest.builder().ordem(1L).orcamento(2L).build();
-        when(service.concluirOrcamento(1L,2L)).thenReturn(new OrdemResponse(null,"FINALIZADA",null,null,null,null,null,BigDecimal.TEN,null,null,List.of()));
+        when(service.concluirOrcamento(1L,2L)).thenReturn(OrdemResponse.builder().status("FINALIZADA").valorTotal(BigDecimal.TEN).orcamentos(List.of()).build());
         ResponseEntity<OrdemResponse> resp = controller.concluirOrcamento(req);
         assertEquals(200, resp.getStatusCode().value());
     }
