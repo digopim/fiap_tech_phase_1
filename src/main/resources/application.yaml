@@ -34,3 +34,6 @@ springdoc:
 logging:
   level:
     root: INFO
+
+jwt:
+  key: "ZmlhcHBvc3RlY2hhcnF1aXRldHVyYXNvZnR3YXJlZmFzZTE="

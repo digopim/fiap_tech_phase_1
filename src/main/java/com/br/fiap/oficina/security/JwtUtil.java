@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -19,9 +20,17 @@ import java.util.Date;
 public class JwtUtil {
 
     private static final long EXPIRATION_MILLIS = 1000L * 60 * 60; // 1h
-    private static final String SECRET = "ZmlhcHBvc3RlY2hhcnF1aXRldHVyYXNvZnR3YXJlZmFzZTE=";
+    private final Key key;
 
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    public JwtUtil(@Value("${jwt.key}") String secret) {
+        byte[] keyBytes;
+        try {
+            keyBytes = java.util.Base64.getDecoder().decode(secret);
+        } catch (IllegalArgumentException _) {
+            keyBytes = secret.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        }
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+    }
 
     public String generateToken(Credencial credencial) {
         Instant now = Instant.now();
