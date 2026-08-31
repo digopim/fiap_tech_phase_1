@@ -5,6 +5,7 @@ import com.br.fiap.oficina.model.entity.Orcamento;
 import com.br.fiap.oficina.model.entity.Ordem;
 import com.br.fiap.oficina.model.enums.Status;
 import lombok.Builder;
+import org.apache.logging.log4j.util.Strings;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ public record OrdemResponse(Long id, String status,
                 .dataConclusao(ordem.getDataConclusao())
                 .dataPagamento(ordem.getDataPagamento())
                 .valorTotal(ordem.getValorTotal())
-                .observacoes(ordem.getObservacoes())
+                .observacoes(Strings.isBlank(ordem.getObservacoes()) ? "Sem Observações" : ordem.getObservacoes())
                 .orcamentos(ordem.getOrcamentos().stream().map(OrcamentoResponse::from).toList())
                 .tempoExecucao("Tempo restante estimado : " + calculaTempoExecucao(ordem.getOrcamentos()) + " Horas")
                 .build();
