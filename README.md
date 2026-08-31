@@ -194,13 +194,9 @@ O projeto está preparado para pipelines contínuos via GitHub Actions, GitLab C
 - **[Arquitetura C4](./docs/c4model.md)** - Decisões arquiteturais, componentes e fluxos
 - **[ADR (Architecture Decision Records)](./docs/adr/)** - Histórico de decisões técnicas
 - **[Documentação de Upstream](https://miro.com/app/board/uXjVH_w6xEM=/?share_link_id=927880207641)** - Visão estratégica e mapeamento de requisitos
-
-## 💡 Contribuindo
-
-1. Criar uma branch para sua feature (`git checkout -b feature/minha-feature`)
-2. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
-3. Push para a branch (`git push origin feature/minha-feature`)
-4. Abrir um Pull Request
+- **[Definição do Problema (Tech Challenge)](./docs/15SOAT - Fase 1 - Tech Challenge.pdf)** - Enunciado do desafio (PDF)
+- **[Análise SonarQube](./docs/sonar/)** - Relatório e resultados da análise estática (pasta)
+- **[Glossário de Linguagem Ubíqua](./docs/glossario-linguagem-ubiqua.md)** - Termos do domínio e definições
 
 ## 📝 Licença
 
