@@ -4,7 +4,6 @@ import com.br.fiap.oficina.model.dto.admin.Panorama;
 import com.br.fiap.oficina.model.dto.estoque.EstoqueResponse;
 import com.br.fiap.oficina.model.dto.ordem.OrdemResponse;
 import com.br.fiap.oficina.service.AdminService;
-import com.br.fiap.oficina.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
-    private final UsuarioService usuarioService;
 
     @GetMapping("/estoque")
     public ResponseEntity<List<EstoqueResponse>> listarEstoqueAtual() {
@@ -30,7 +28,7 @@ public class AdminController {
     }
 
     @GetMapping("/panorama")
-    public ResponseEntity<List<Panorama>> obterPanorama(
+    public ResponseEntity<Panorama> obterPanorama(
             @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
             @RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
         return ResponseEntity.ok(adminService.obterPanorama(inicio, fim));

@@ -2,15 +2,20 @@ package com.br.fiap.oficina.service;
 
 import com.br.fiap.oficina.model.dto.estoque.EstoqueRequest;
 import com.br.fiap.oficina.model.dto.estoque.EstoqueResponse;
+import com.br.fiap.oficina.model.entity.Caixa;
 import com.br.fiap.oficina.model.entity.Estoque;
+import com.br.fiap.oficina.model.enums.Fluxo;
 import com.br.fiap.oficina.model.enums.Insumo;
+import com.br.fiap.oficina.model.enums.Origem;
 import com.br.fiap.oficina.model.repository.EstoqueRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.br.fiap.oficina.model.enums.Fluxo.SAIDA;
@@ -53,7 +58,7 @@ public class EstoqueService {
         estoque.forEach(item -> {
             if(item.getQuantidade() < item.getMinimo()) {
                 int quantidadePedido = calcularPedido(item.getQuantidade(), item.getMinimo(), item.getMaterial().getTipo());
-                if(caixaService.registrar(item.getMaterial().getNome(),
+                if(registrar(item.getMaterial().getNome(),
                         item.getMaterial().getCusto().multiply(BigDecimal.valueOf(quantidadePedido)),
                         SAIDA, ESTOQUE)){
                     item.setQuantidade(item.getQuantidade() + quantidadePedido);
@@ -71,5 +76,12 @@ public class EstoqueService {
         };
     }
 
+    public List<Caixa> obterTodosPorData(@NotNull LocalDateTime dataInicio, @NotNull LocalDateTime dataFim) {
+        return caixaService.obterTodosPorData(dataInicio, dataFim);
+    }
+
+    public boolean registrar(String descricao, BigDecimal valor, Fluxo fluxo, Origem origem) {
+        return caixaService.registrar(descricao, valor, fluxo, origem);
+    }
 
 }

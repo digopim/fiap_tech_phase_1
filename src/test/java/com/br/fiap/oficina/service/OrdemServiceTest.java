@@ -39,13 +39,13 @@ class OrdemServiceTest {
     @Mock
     private CredencialService credencialService;
     @Mock
-    private CaixaService caixaService;
+    private EstoqueService estoqueService;
 
     private OrdemService service;
 
     @BeforeEach
     void setup() {
-        service = new OrdemService(repository, orcamentoService, veiculoService, usuarioService, credencialService, caixaService);
+        service = new OrdemService(repository, orcamentoService, veiculoService, usuarioService, credencialService, estoqueService);
     }
 
     @Test
@@ -136,7 +136,7 @@ class OrdemServiceTest {
 
         var resp = service.registrarPagamento(1L);
         assertEquals("Aguardando Resgate do Veiculo", resp.status());
-        verify(caixaService, times(1)).registrar(ArgumentMatchers.contains("Pagamento Ordem"), eq(BigDecimal.valueOf(55)), ArgumentMatchers.any(), ArgumentMatchers.any());
+        verify(estoqueService, times(1)).registrar(ArgumentMatchers.contains("Pagamento Ordem"), eq(BigDecimal.valueOf(55)), ArgumentMatchers.any(), ArgumentMatchers.any());
     }
 
     @Test

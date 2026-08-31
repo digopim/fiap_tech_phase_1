@@ -2,6 +2,7 @@ package com.br.fiap.oficina.service;
 
 import com.br.fiap.oficina.model.dto.credencial.CredencialRequest;
 import com.br.fiap.oficina.model.dto.credencial.CredencialResponse;
+import com.br.fiap.oficina.model.dto.usuario.UsuarioRequest;
 import com.br.fiap.oficina.model.entity.Credencial;
 import com.br.fiap.oficina.model.entity.Usuario;
 import com.br.fiap.oficina.model.repository.CredencialRepository;
@@ -20,7 +21,6 @@ public class CredencialService {
     private final CredencialRepository repository;
     private final UsuarioService usuarioService;
 
-    @Transactional
     public CredencialResponse cadastrar(CredencialRequest request, Usuario usuario) {
         Credencial credencial =
                 repository.save(Credencial.builder()
@@ -29,6 +29,13 @@ public class CredencialService {
                 .usuario(usuario != null ? usuario : usuarioService.novoUsuario(request.login()) )
                 .build());
         return CredencialResponse.builder().id(credencial.getId()).login(credencial.getLogin()).build();
+    }
+
+    @Transactional
+    public Usuario novoUsuario(CredencialRequest request, UsuarioRequest cliente) {
+        Usuario novo = usuarioService.salvarUsuario(UsuarioRequest.from(cliente));
+        cadastrar(CredencialRequest.builder().login(cliente.cpfCNPJ()).senha("primeiroacesso").build(), novo);
+        return novo;
     }
 
     public Credencial validar(String  login, String senha) {

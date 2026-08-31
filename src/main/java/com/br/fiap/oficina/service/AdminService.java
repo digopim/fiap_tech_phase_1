@@ -22,11 +22,9 @@ public class AdminService {
 
     private OrdemService ordemService;
     private EstoqueService estoqueService;
-    private CaixaService caixaService;
 
-
-    public List<Panorama> obterPanorama(LocalDateTime inicio, LocalDateTime fim) {
-        List<Caixa> registros = caixaService.obterTodosPorData(inicio, fim);
+    public Panorama obterPanorama(LocalDateTime inicio, LocalDateTime fim) {
+        List<Caixa> registros = estoqueService.obterTodosPorData(inicio, fim);
 
         Map<Origem, List<CaixaResponse>> custos = agruparPorOrigem(registros, Fluxo.ENTRADA);
         Map<Origem, List<CaixaResponse>> receitas = agruparPorOrigem(registros, Fluxo.SAIDA);
@@ -35,14 +33,13 @@ public class AdminService {
         BigDecimal receitasTotal = receitas.values().stream().flatMap(List::stream).map(CaixaResponse::valor).reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal saldoTotal = receitasTotal.subtract(custosTotal);
 
-        Panorama.builder()
+        return Panorama.builder()
                 .custos(custos)
                 .receitas(receitas)
                 .totalCustos(custosTotal)
                 .totalReceitas(receitasTotal)
                 .saldo(saldoTotal)
                 .build();
-        return null;
     }
 
     public List<EstoqueResponse> obterEstoqueAtual() {

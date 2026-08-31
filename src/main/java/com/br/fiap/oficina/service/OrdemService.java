@@ -33,7 +33,7 @@ public class OrdemService {
     private VeiculoService veiculoService;
     private UsuarioService usuarioService;
     private CredencialService credencialService;
-    private CaixaService caixaService;
+    private EstoqueService estoqueService;
 
     private static final String MSG_NAO_ENCONTRADO = "Ordem não encontrada";
     private static final ZoneId ZONE_ID = ZoneId.of("America/Sao_Paulo");
@@ -155,7 +155,7 @@ public class OrdemService {
         }
         os.setStatus(Status.LIBERADA);
         os.setDataPagamento(LocalDateTime.now(ZONE_ID));
-        caixaService.registrar("Pagamento Ordem" + os.getId(), os.getValorTotal(), Fluxo.ENTRADA, Origem.SERVICO);
+        estoqueService.registrar("Pagamento Ordem" + os.getId(), os.getValorTotal(), Fluxo.ENTRADA, Origem.SERVICO);
         return OrdemResponse.from(repository.save(os));
     }
 
