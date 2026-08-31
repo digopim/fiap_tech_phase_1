@@ -14,8 +14,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CaixaServiceTest {
@@ -32,7 +34,8 @@ class CaixaServiceTest {
 
     @Test
     void registrar_savesAndReturnsTrue() {
-        when(repository.save(any())).thenAnswer(i -> i.getArgument(0));
+        Caixa saved = Caixa.builder().id(1L).build();
+        when(repository.save(any())).thenReturn(saved);
         assertTrue(service.registrar("d", BigDecimal.TEN, Fluxo.ENTRADA, Origem.SERVICO));
     }
 

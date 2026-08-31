@@ -74,8 +74,8 @@ class OrcamentoServiceTest {
 
         Orcamento saved = service.criarOrcamento(req, ordem);
 
-        assertEquals(5, saved.getServicos().get(0).getQuantidade());
-        assertEquals(4, saved.getMateriais().get(0).getQuantidade());
+        assertEquals(5, saved.getServicos().getFirst().getQuantidade());
+        assertEquals(4, saved.getMateriais().getFirst().getQuantidade());
     }
 
     @Test

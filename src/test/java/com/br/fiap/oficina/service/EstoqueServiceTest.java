@@ -4,8 +4,6 @@ import com.br.fiap.oficina.model.entity.Caixa;
 import com.br.fiap.oficina.model.entity.Estoque;
 import com.br.fiap.oficina.model.entity.Material;
 import com.br.fiap.oficina.model.enums.Insumo;
-import com.br.fiap.oficina.model.enums.Origem;
-import com.br.fiap.oficina.model.enums.Fluxo;
 import com.br.fiap.oficina.model.repository.EstoqueRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +15,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

@@ -24,14 +24,14 @@ public class CaixaService {
     private CaixaRepository repository;
 
     public boolean registrar(String descricao, BigDecimal valor, Fluxo fluxo, Origem origem) {
-        repository.save(Caixa.builder()
+        Caixa saved = repository.save(Caixa.builder()
                 .descricao(descricao)
                 .valor(valor)
                 .fluxo(fluxo)
                 .origem(origem)
                 .data(now(ZoneId.of("America/Sao_Paulo")))
                 .build());
-        return true;
+        return saved.getId() != null;
     }
 
     public BigDecimal calcularSaldoTotal() {
