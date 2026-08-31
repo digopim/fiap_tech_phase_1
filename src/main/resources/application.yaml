@@ -1,3 +1,8 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /oficina/v1
+
 spring:
   application:
     name: oficina
@@ -16,4 +21,19 @@ spring:
     show-sql: false
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
-    enabled: false
+    enabled: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+
+logging:
+  level:
+    root: INFO
+
+jwt:
+  key: "ZmlhcHBvc3RlY2hhcnF1aXRldHVyYXNvZnR3YXJlZmFzZTE="
