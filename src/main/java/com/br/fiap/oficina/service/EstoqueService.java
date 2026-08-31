@@ -1,6 +1,7 @@
 package com.br.fiap.oficina.service;
 
 import com.br.fiap.oficina.model.dto.estoque.EstoqueRequest;
+import com.br.fiap.oficina.model.dto.estoque.EstoqueResponse;
 import com.br.fiap.oficina.model.entity.Estoque;
 import com.br.fiap.oficina.model.enums.Insumo;
 import com.br.fiap.oficina.model.repository.EstoqueRepository;
@@ -10,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static com.br.fiap.oficina.model.enums.Fluxo.SAIDA;
 import static com.br.fiap.oficina.model.enums.Origem.ESTOQUE;
@@ -38,15 +40,11 @@ public class EstoqueService {
         repository.save(item);
     }
 
-    @Transactional
-    public boolean debitar(EstoqueRequest request) {
-        var item = repository.findByMaterial_Id(request.materialId());
-        if (item.getQuantidade() < request.quantidade()) {
-            return false;
-        }
-        item.setQuantidade(item.getQuantidade() - request.quantidade());
-        repository.save(item);
-        return true;
+    public List<EstoqueResponse> atual() {
+        List<Estoque> retorno = (List<Estoque>) repository.findAll();
+        return retorno.stream()
+                .map(EstoqueResponse::from)
+                .toList();
     }
 
     @Scheduled(cron = "0 0 9 * * *") // Executa todos os dias à nove horas da manhã
@@ -72,4 +70,6 @@ public class EstoqueService {
             case FERRAMENTA, ALIMENTO -> quantidadeMinima - quantidadeAtual;
         };
     }
+
+
 }

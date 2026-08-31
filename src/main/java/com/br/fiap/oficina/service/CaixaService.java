@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.time.LocalDateTime.now;
@@ -57,5 +58,9 @@ public class CaixaService {
             saldoPorOrigem.put(origem, saldo);
         }
         return saldoPorOrigem;
+    }
+
+    public List<Caixa> obterTodosPorData(@NotNull LocalDateTime dataInicio, @NotNull LocalDateTime dataFim) {
+        return repository.findByDataBetweenOrderByDataAsc(dataInicio,  dataFim);
     }
 }

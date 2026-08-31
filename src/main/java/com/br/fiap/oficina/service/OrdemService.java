@@ -9,6 +9,8 @@ import com.br.fiap.oficina.model.entity.Orcamento;
 import com.br.fiap.oficina.model.entity.Ordem;
 import com.br.fiap.oficina.model.entity.Usuario;
 import com.br.fiap.oficina.model.entity.Veiculo;
+import com.br.fiap.oficina.model.enums.Fluxo;
+import com.br.fiap.oficina.model.enums.Origem;
 import com.br.fiap.oficina.model.enums.Status;
 import com.br.fiap.oficina.model.repository.OrdemRepository;
 import lombok.AllArgsConstructor;
@@ -29,9 +31,9 @@ public class OrdemService {
     private OrdemRepository repository;
     private OrcamentoService orcamentoService;
     private VeiculoService veiculoService;
-    private ServicoService servicoService;
     private UsuarioService usuarioService;
     private CredencialService credencialService;
+    private CaixaService caixaService;
 
     private static final String MSG_NAO_ENCONTRADO = "Ordem não encontrada";
     private static final ZoneId ZONE_ID = ZoneId.of("America/Sao_Paulo");
@@ -85,6 +87,7 @@ public class OrdemService {
         return OrdemResponse.from(repository.save(os));
     }
 
+    @Transactional
     public OrdemResponse aprovarOrcamento(String cpfCNPJ, String placa, boolean aprovado) {
         Ordem os = repository.findFirstByCliente_CpfCNPJAndVeiculo_PlacaAndDataConclusaoNullOrderByDataCriacaoAsc(cpfCNPJ, placa).orElseThrow();
         var orcamento = os.getOrcamentos().stream().filter(o -> o.getDataAprovacao() == null && o.getDataConclusao() == null).findFirst();
@@ -100,6 +103,16 @@ public class OrdemService {
 
     public List<OrdemResponse> obterOrdens(String placa, String cpfCNPJ) {
         List<Ordem> ordens = repository.findByCliente_CpfCNPJIgnoreCaseAndVeiculo_PlacaIgnoreCaseOrderByDataCriacaoAsc(cpfCNPJ, placa);
+        return ordens.stream().map(OrdemResponse::from).toList();
+    }
+
+    public List<OrdemResponse> obterOrdensPorCpfCNPJ(String cpfCNPJ) {
+        List<Ordem> ordens = repository.findByCliente_CpfCNPJOrderByDataCriacaoDesc(cpfCNPJ);
+        return ordens.stream().map(OrdemResponse::from).toList();
+    }
+
+    public List<OrdemResponse> obterOrdensPorPlaca(String placa) {
+        List<Ordem> ordens = repository.findByVeiculo_PlacaIgnoreCaseOrderByDataCriacaoAsc(placa);
         return ordens.stream().map(OrdemResponse::from).toList();
     }
 
@@ -119,15 +132,22 @@ public class OrdemService {
         }
 
         if(Status.EM_EXECUCAO.equals(os.getStatus()) && os.getOrcamentos().stream().allMatch(o -> o.getDataConclusao() != null)){
-            os.setStatus(Status.FINALIZADA);
-            os.setValorTotal(calcularValorTotal(os));
-            os.setDataConclusao(LocalDateTime.now(ZONE_ID));
-            repository.save(os);
+            repository.save(finalizarOrcamento(os));
         }
         return OrdemResponse.from(os);
     }
 
+    private Ordem finalizarOrcamento(Ordem os) {
+        if(os.getOrcamentos().stream().allMatch(o -> o.getDataConclusao() != null)){
+            os.setStatus(Status.FINALIZADA);
+            os.setValorTotal(calcularValorTotal(os));
+            os.setDataConclusao(LocalDateTime.now(ZONE_ID));
+        }
+        return os;
+    }
+
     // Pagar OS
+    @Transactional
     public OrdemResponse registrarPagamento(Long ordemId) {
         Ordem os = repository.findById(ordemId).orElseThrow(() -> new NoSuchElementException(MSG_NAO_ENCONTRADO));
         if(!Status.FINALIZADA.equals(os.getStatus()) && os.getDataPagamento() == null){
@@ -135,6 +155,7 @@ public class OrdemService {
         }
         os.setStatus(Status.LIBERADA);
         os.setDataPagamento(LocalDateTime.now(ZONE_ID));
+        caixaService.registrar("Pagamento Ordem" + os.getId(), os.getValorTotal(), Fluxo.ENTRADA, Origem.SERVICO);
         return OrdemResponse.from(repository.save(os));
     }
 
@@ -169,23 +190,15 @@ public class OrdemService {
         return valorTotal;
     }
 
-    // criar metodo que usa o scheduler para verificar se tem os finalizada e concluir ela
-    @Scheduled(cron = "0 0 9 * * *")
+    // criar metodo que usa o scheduler para verificar se tem ordens finalizadas e concluir elas
+    @Scheduled(cron = "0 0 * * * *")
     public void verificarOrdensFinalizadas() {
-        List<Ordem> ordensFinalizadas = repository.findByStatus(Status.FINALIZADA);
+        List<Ordem> ordensFinalizadas = repository.findByStatus(Status.EM_EXECUCAO);
         for (Ordem ordem : ordensFinalizadas) {
             if (ordem.getOrcamentos().stream().allMatch(o -> o.getDataConclusao() != null)) {
-                ordem.setStatus(Status.FINALIZADA);
-                repository.save(ordem);
+                repository.save(finalizarOrcamento(ordem));
             }
         }
     }
-
-    //criar listagem de historico por cpf/cnpj
-
-
-    //criar listagem de historico por placa
-
-
 
 }

@@ -5,6 +5,7 @@ import com.br.fiap.oficina.model.entity.*;
 import com.br.fiap.oficina.model.repository.OrcamentoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ public class OrcamentoService {
     private OrcamentoRepository repository;
     private ServicoService servicoService;
     private MaterialService materialService;
+    private final EstoqueService estoqueService;
 
     // Criar orçamento de serviço
     public Orcamento criarOrcamento(OrcamentoRequest request, Ordem ordem) {
@@ -66,6 +68,7 @@ public class OrcamentoService {
         return repository.save(orcamento);
     }
 
+    @Transactional
     public void aprovarOrcamento(Long orcamentoId, boolean aprovado) {
         repository.findById(orcamentoId).ifPresent(orcamento -> {
             if (aprovado) {
