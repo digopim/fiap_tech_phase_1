@@ -28,8 +28,8 @@ public class EstoqueService {
     private EstoqueRepository repository;
     private CaixaService caixaService;
 
-    public void salvar(Estoque estoque) {
-        repository.save(estoque);
+    public Estoque salvar(Estoque estoque) {
+        return repository.save(estoque);
     }
 
     @Transactional
