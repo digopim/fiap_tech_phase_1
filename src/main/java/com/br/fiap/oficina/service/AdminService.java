@@ -26,8 +26,8 @@ public class AdminService {
     public Panorama obterPanorama(LocalDateTime inicio, LocalDateTime fim) {
         List<Caixa> registros = estoqueService.obterTodosPorData(inicio, fim);
 
-        Map<Origem, List<CaixaResponse>> custos = agruparPorOrigem(registros, Fluxo.ENTRADA);
-        Map<Origem, List<CaixaResponse>> receitas = agruparPorOrigem(registros, Fluxo.SAIDA);
+        Map<Origem, List<CaixaResponse>> custos = agruparPorOrigem(registros, Fluxo.SAIDA);
+        Map<Origem, List<CaixaResponse>> receitas = agruparPorOrigem(registros, Fluxo.ENTRADA);
 
         BigDecimal custosTotal = custos.values().stream().flatMap(List::stream).map(CaixaResponse::valor).reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal receitasTotal = receitas.values().stream().flatMap(List::stream).map(CaixaResponse::valor).reduce(BigDecimal.ZERO, BigDecimal::add);

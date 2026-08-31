@@ -1,4 +1,4 @@
-# Oficina - Plataforma de Gestão Automotiva
+﻿# Oficina - Plataforma de Gestão Automotiva
 
 [![Java](https://img.shields.io/badge/Java-25-ED8B00?style=flat-square&logo=java)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0-6DB33F?style=flat-square&logo=spring-boot)](https://spring.io/projects/spring-boot)
@@ -7,41 +7,42 @@
 
 ## Visão Geral
 
-Plataforma backend de gestão integrada para oficinas automotivas, desenvolvida com Java 25 e Spring Boot 4. Oferece controle completo de clientes, veículos, ordens de serviço, materiais, serviços e pagamentos com autenticação baseada em JWT e autorização por perfis de acesso.
+Plataforma backend para gestão integrada de oficinas automotivas, desenvolvida em Java 25 com Spring Boot 4. O projeto contempla cadastro de usuários, veículos, materiais, serviços, ordens de serviço, autenticação JWT e painel administrativo para acompanhamento de estoque e operação.
 
-## 🚀 Características Principais
+## 🚀 Funcionalidades
 
-- **Gestão de Clientes**: Cadastro, busca e perfis de acesso
-- **Gestão de Veículos**: Registro associado a clientes com rastreamento por placa
-- **Ordens de Serviço**: Fluxo completo de diagnóstico, orçamento, aprovação e execução
-- **Controle de Materiais**: Gestão de estoque e alocação em serviços
-- **Catálogo de Serviços**: Manutenção e precificação de ofertas
-- **Sistema de Pagamentos**: Integração e rastreamento de transações
-- **Autenticação Segura**: JWT com geração de tokens stateless
-- **Autorização por Perfis**: Cliente, Colaborador, Administrador
+- **Cadastro e autenticação de usuários** com perfis e geração de JWT
+- **Gestão de veículos** por placa, montadora, modelo e tipo
+- **Catálogo de serviços** com descrição, duração, custo e valor
+- **Controle de materiais e estoque** por item e movimentação
+- **Fluxo de ordens de serviço** com orçamento, aprovação, conclusão e pagamento
+- **Administração operacional** com panorama por período e consultas por CPF/CNPJ ou placa
+- **Documentação automática** por Springdoc OpenAPI / Swagger
 
 ## 🛠️ Tecnologias
 
 | Tecnologia | Versão | Propósito |
 |---|---|---|
 | **Java** | 25 | Linguagem principal |
-| **Spring Boot** | 4.1.0 | Framework web e composição |
+| **Spring Boot** | 4.1.0 | Framework principal |
 | **Spring Security** | 4.1.0 | Autenticação e autorização |
-| **Spring Data JPA** | 4.1.0 | Acesso a dados |
+| **Spring Data JPA** | 4.1.0 | Persistência e consultas |
 | **PostgreSQL** | 16 | Banco de dados relacional |
-| **Liquibase** | 4.1.0 | Versionamento de schema |
-| **Spring Actuator** | 4.1.0 | Observabilidade e health checks |
+| **Liquibase** | 4.1.0 | Versionamento do schema |
+| **Springdoc OpenAPI** | 3.1.0 | Swagger / documentação da API |
+| **Argon2** | via Spring Security | Hash de senhas |
+| **JWT** | JJWT 0.11.5 | Tokens de autenticação |
 | **Lombok** | Auto | Redução de boilerplate |
-| **Bean Validation** | Auto | Validação de dados |
+| **Bean Validation** | Auto | Validação de payloads |
 
 ## 📋 Pré-requisitos
 
 - Java 25+
 - Maven 3.8+
-- PostgreSQL 16+
-- Docker (opcional, para containerização)
+- Docker e Docker Compose
+- PostgreSQL 16+ (ou uso do Compose do projeto)
 
-## 🔧 Instalação e Configuração
+## 🔧 Configuração e execução
 
 ### 1. Clonar o repositório
 
@@ -50,15 +51,13 @@ git clone https://github.com/digopim/fiap_tech_phase_1.git
 cd fiap_tech_phase_1
 ```
 
-### 2. Configurar banco de dados
+### 2. Subir o banco de dados
 
-Usar Docker Compose para subir PostgreSQL:
+O projeto inclui um `compose.yaml` para provisionar o PostgreSQL localmente:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
-
-Ou configurar manualmente em `application.properties` / `application.yml`.
 
 ### 3. Compilar o projeto
 
@@ -72,98 +71,111 @@ Ou configurar manualmente em `application.properties` / `application.yml`.
 ./mvnw spring-boot:run
 ```
 
-A aplicação estará disponível em `http://localhost:8080`.
+A aplicação fica disponível em:
 
-O Swagger gerado pelo Spring Docs também está disponível em `http://localhost:8080/swagger-ui/index.html`.
+- API base: `http://localhost:8080/oficina/v1`
+- Swagger UI: `http://localhost:8080/oficina/v1/swagger-ui.html`
+- OpenAPI JSON: `http://localhost:8080/oficina/v1/v3/api-docs`
 
-## 📁 Estrutura do Projeto
+> A configuração padrão do projeto já define o `context-path` `/oficina/v1` em `src/main/resources/application.yaml`.
 
-```
+## 📁 Estrutura do projeto
+
+```text
 src/
 ├── main/
-│   └── java/com/br/fiap/oficina/
-│       ├── controller/          # Endpoints REST
-│       ├── service/             # Regras de negócio
-│       ├── repository/          # Acesso a dados (JPA)
-│       ├── entity/              # Modelos de domínio
-│       ├── dto/                 # Objetos de transferência
-│       ├── mapper/              # Transformação de dados
-│       ├── security/            # JWT e autenticação
-│       ├── config/              # Configurações Spring
-│       ├── exception/           # Tratamento de erros
-│       └── util/                # Classes utilitárias
-├── resources/
-│   ├── application.properties    # Configurações da aplicação
-│   └── db/changelog/            # Scripts Liquibase
-└── test/                         # Testes unitários e integração
+│   ├── java/com/br/fiap/oficina/
+│   │   ├── config/              # Configurações do Spring e OpenAPI
+│   │   ├── controller/          # Endpoints REST
+│   │   ├── model/
+│   │   │   ├── dto/             # DTOs de request/response
+│   │   │   ├── entity/          # Entidades JPA
+│   │   │   ├── enums/           # Enumeradores do domínio
+│   │   │   └── ...
+│   │   ├── repository/          # Repositórios JPA
+│   │   ├── security/            # JWT e SecurityConfig
+│   │   ├── service/             # Casos de uso e regras de negócio
+│   │   └── Application.java     # Bootstrap da aplicação
+│   └── resources/
+│       ├── application.yaml     # Configurações da aplicação
+│       ├── static/
+│       ├── templates/
+│       └── db/changelog/        # Scripts Liquibase
+└── test/                        # Testes automatizados
 ```
 
 ## 🔐 Segurança
 
-- **Autenticação**: JWT com geração e validação em filtros Spring Security
-- **Autorização**: Controle granular por perfil de usuário
-- **Criptografia**: Senhas com Argon2 e TLS em produção
-- **Auditoria**: Logs de operação e rastreamento de identidades
-- **Conformidade**: Protocolos LGPD para proteção de dados pessoais
+- **Autenticação JWT** com filtro customizado no Spring Security
+- **Autorização por perfil** com papéis `ROLE_CLIENTE`, `ROLE_COLABORADOR`, `ROLE_FORNECEDOR` e `ROLE_ADMINISTRADOR`
+- **Criptografia de senha** usando Argon2
+- **Headers protegidos** com `Authorization: Bearer <token>`
 
 ## 🌐 API REST
 
-### Autenticação
+A base da API é:
 
-```bash
-POST /auth/login
-Content-Type: application/json
-
-{
-  "email": "usuario@example.com",
-  "senha": "senha123"
-}
+```text
+http://localhost:8080/oficina/v1
 ```
 
-**Resposta:**
+### Login
+
+```bash
+curl -X POST http://localhost:8080/oficina/v1/auth/login \
+  -H "login: usuario@exemplo.com" \
+  -H "senha: senha123"
+```
+
+Resposta esperada:
+
 ```json
 {
-  "token": "eyJhbGc...",
-  "tipo": "Bearer",
-  "expiracao": 3600
+  "token": "eyJhbGciOiJIUzI1NiJ9..."
 }
 ```
 
-### Uso de Tokens
-
-Incluir o token nos headers de requisições protegidas:
+### Uso do token
 
 ```bash
-Authorization: Bearer eyJhbGc...
+curl http://localhost:8080/oficina/v1/usuario \
+  -H "Authorization: Bearer <token>"
 ```
 
-### Principais Endpoints
+### Principais endpoints
 
 | Método | Endpoint | Descrição |
 |---|---|---|
-| `POST` | `/usuarios` | Cadastrar usuário |
-| `GET` | `/usuarios/{id}` | Obter usuário |
-| `POST` | `/veiculos` | Registrar veículo |
-| `GET` | `/veiculos?placa={placa}` | Buscar veículo por placa |
-| `POST` | `/ordens` | Criar ordem de serviço |
-| `GET` | `/ordens/{id}` | Obter status da ordem |
-| `POST` | `/materiais` | Adicionar material ao catálogo |
-| `GET` | `/materiais` | Listar materiais |
-
-> Para documentação completa de API, consultar [Swagger/OpenAPI](#observabilidade).
+| `POST` | `/auth/login` | Autentica usuário e gera token JWT |
+| `PUT` | `/credencial/cadastrar` | Cadastra credencial de acesso |
+| `GET` | `/usuario` | Lista usuários |
+| `GET` | `/usuario/{id}` | Busca usuário por ID |
+| `GET` | `/usuario/cpf/{cpf}` | Busca usuário por CPF/CNPJ |
+| `GET` | `/veiculo` | Lista veículos |
+| `GET` | `/veiculo/placa/{placa}` | Busca veículo por placa |
+| `POST` | `/veiculo` | Cadastra veículo |
+| `GET` | `/material` | Lista materiais |
+| `POST` | `/material` | Cadastra material |
+| `GET` | `/servico` | Lista serviços |
+| `POST` | `/servico` | Cadastra serviço |
+| `POST` | `/ordem` | Cria ordem de serviço |
+| `GET` | `/ordem` | Lista ordens |
+| `GET` | `/ordem/status` | Lista ordens por status |
+| `POST` | `/ordem/{ordemId}/orcamento` | Adiciona orçamento |
+| `POST` | `/ordem/aprovar` | Aprova orçamento |
+| `POST` | `/ordem/concluir` | Conclui ordem |
+| `POST` | `/ordem/{ordemId}/pagar` | Registra pagamento |
+| `GET` | `/admin/estoque` | Consulta estoque atual |
+| `GET` | `/admin/panorama` | Panorama administrativo por período |
+| `GET` | `/admin/ordens/cpf` | Ordens por CPF/CNPJ |
+| `GET` | `/admin/ordens/placa` | Ordens por placa |
 
 ## 🧪 Testes
 
-Executar suite de testes:
+Executar a suíte de testes:
 
 ```bash
 ./mvnw test
-```
-
-Cobertura de testes:
-
-```bash
-./mvnw test jacoco:report
 ```
 
 ## 🚀 Deploy
@@ -173,38 +185,29 @@ Cobertura de testes:
 ```bash
 docker build -t oficina:latest .
 docker run -p 8080:8080 \
-  -e DB_URL=jdbc:postgresql://postgres:5432/oficina \
-  -e DB_USER=postgres \
-  -e DB_PASSWORD=postgres \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/oficina \
+  -e SPRING_DATASOURCE_USERNAME=postgres \
+  -e SPRING_DATASOURCE_PASSWORD=postgres \
   oficina:latest
 ```
 
-### CI/CD
-
-O projeto está preparado para pipelines contínuos via GitHub Actions, GitLab CI ou equivalentes. Configurar secrets e variáveis de ambiente no seu provedor.
-
 ## 📊 Observabilidade
 
-- **Health Checks**: `GET /actuator/health`
-- **Métricas**: `GET /actuator/metrics`
-- **Logs**: Agregados via SLF4J/Logback (configurável)
+- `GET /oficina/v1/actuator/health`
+- `GET /oficina/v1/actuator/metrics`
+- Logs via SLF4J/Logback
 
-## 📚 Documentação Adicional
+## 📚 Documentação adicional
 
-- **[Arquitetura C4](./docs/c4model.md)** - Decisões arquiteturais, componentes e fluxos
+- **[Arquitetura C4](./docs/c4model.md)** - Decisões arquiteturais e visão dos componentes
 - **[ADR (Architecture Decision Records)](./docs/adr/)** - Histórico de decisões técnicas
-- **[Documentação de Upstream](https://miro.com/app/board/uXjVH_w6xEM=/?share_link_id=927880207641)** - Visão estratégica e mapeamento de requisitos
-
-## 💡 Contribuindo
-
-1. Criar uma branch para sua feature (`git checkout -b feature/minha-feature`)
-2. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
-3. Push para a branch (`git push origin feature/minha-feature`)
-4. Abrir um Pull Request
+- **[Glossário de linguagem ubíqua](./docs/glossario-linguagem-ubiqua.md)** - Termos e definições do domínio
+- **[Definição do problema (Tech Challenge)](./docs/15SOAT - Fase 1 - Tech Challenge.pdf)** - Enunciado do desafio
+- **[Análise SonarQube](./docs/sonar/)** - Relatório estático do projeto
 
 ## 📝 Licença
 
-Este projeto é privado e desenvolvido para FIAP Tech Challenge Phase 1.
+Este projeto é privado e foi desenvolvido para o Tech Challenge da FIAP - Fase 1.
 
 ## 👨‍💻 Autor
 
@@ -212,4 +215,4 @@ Este projeto é privado e desenvolvido para FIAP Tech Challenge Phase 1.
 
 ## 📞 Suporte
 
-Para dúvidas ou problemas, consulte a documentação nos links acima ou abra uma issue no repositório.
+Para dúvidas, problemas ou sugestões, consulte a documentação do repositório ou abra uma issue no GitHub.

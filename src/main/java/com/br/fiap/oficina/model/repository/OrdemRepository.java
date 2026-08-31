@@ -2,8 +2,8 @@ package com.br.fiap.oficina.model.repository;
 
 import com.br.fiap.oficina.model.entity.Ordem;
 import com.br.fiap.oficina.model.enums.Status;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Optional;
