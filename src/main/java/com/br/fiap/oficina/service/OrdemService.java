@@ -102,7 +102,7 @@ public class OrdemService {
     }
 
     public List<OrdemResponse> obterOrdens(String placa, String cpfCNPJ) {
-        List<Ordem> ordens = repository.findByCliente_CpfCNPJIgnoreCaseAndVeiculo_PlacaIgnoreCaseOrderByDataCriacaoAsc(cpfCNPJ, placa);
+        List<Ordem> ordens = repository.findByCliente_CpfCNPJIgnoreCaseAndVeiculo_PlacaIgnoreCaseOrderByDataCriacaoDesc(cpfCNPJ, placa);
         return ordens.stream().map(OrdemResponse::from).toList();
     }
 
