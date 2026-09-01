@@ -35,7 +35,7 @@ public class UsuarioController {
         return u.map(usuario -> ResponseEntity.ok(toResponse(usuario))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/atualizar/{id}")
     public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Long id, @RequestBody UsuarioRequest request) {
         var atualizado = service.atualizarUsuario(id, request);
         return ResponseEntity.ok(toResponse(atualizado));
