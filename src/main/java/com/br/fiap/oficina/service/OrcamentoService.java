@@ -24,14 +24,9 @@ public class OrcamentoService {
 
     // Criar orçamento de serviço
     public Orcamento criarOrcamento(OrcamentoRequest request, Ordem ordem) {
-        Orcamento orcamento;
-        if(request.orcamentoId() == null) {
-            orcamento = Orcamento.builder()
-                    .ordem(ordem)
-                    .build();
-        } else {
-            orcamento = ordem.getOrcamentos().stream().filter(o -> o.getDataConclusao() == null && o.getDataAprovacao() == null).findFirst().orElseThrow();
-        }
+        Orcamento orcamento = ordem.getOrcamentos().stream().filter(o -> o.getDataConclusao() == null && o.getDataAprovacao() == null).findFirst().orElse(Orcamento.builder()
+                .ordem(ordem)
+                .build());
 
         request.servicos().forEach((servicoId, quantidade) -> {
             Servico servico = servicoService.buscarServicoPorId(servicoId);

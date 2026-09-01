@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface OrdemRepository extends CrudRepository<Ordem, Long> {
     List<Ordem> findByCliente_CpfCNPJIgnoreCaseAndVeiculo_PlacaIgnoreCaseOrderByDataCriacaoAsc(@Nullable String cpfCNPJ, @Nullable String placa);
+    List<Ordem> findByCliente_CpfCNPJIgnoreCaseAndVeiculo_PlacaIgnoreCaseOrderByDataCriacaoDesc(@Nullable String cpfCNPJ, @Nullable String placa);
 
     List<Ordem> findByStatus(Status status);
 

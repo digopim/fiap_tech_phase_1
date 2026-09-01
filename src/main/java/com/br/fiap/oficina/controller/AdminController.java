@@ -29,12 +29,12 @@ public class AdminController {
 
     @GetMapping("/panorama")
     public ResponseEntity<Panorama> obterPanorama(
-            @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
-            @RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
+            @RequestParam(value = "inicio", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+            @RequestParam(value = "fim", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
         return ResponseEntity.ok(adminService.obterPanorama(inicio, fim));
     }
 
-    @GetMapping("/ordens/cpf")
+    @GetMapping("/ordens/cpfcnpj")
     public ResponseEntity<List<OrdemResponse>> obterOrdensPorCpfCNPJ(@RequestParam("cpfCNPJ") String cpfCNPJ) {
         return ResponseEntity.ok(adminService.obterOrdensPorCpfCNPJ(cpfCNPJ));
     }
