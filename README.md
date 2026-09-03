@@ -202,8 +202,10 @@ docker run -p 8080:8080 \
 - **[Arquitetura C4](./docs/c4model.md)** - Decisões arquiteturais e visão dos componentes
 - **[ADR (Architecture Decision Records)](./docs/adr/)** - Histórico de decisões técnicas
 - **[Glossário de linguagem ubíqua](./docs/glossario-linguagem-ubiqua.md)** - Termos e definições do domínio
-- **[Definição do problema (Tech Challenge)](./docs/15SOAT - Fase 1 - Tech Challenge.pdf)** - Enunciado do desafio
+- **[Definição do problema (Tech Challenge)](./docs/15SOAT_Fase_1_Tech_Challenge.pdf)** - Enunciado do desafio
 - **[Análise SonarQube](./docs/sonar/)** - Relatório estático do projeto
+- **[Swagger](./docs/swagger/)** - Documentação da API
+- - **[Video demonstração](https://youtu.be/Bkat6_QJfnA)** - Documentação da API
 
 ## 📝 Licença
 
