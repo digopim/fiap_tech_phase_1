@@ -1,11 +1,11 @@
-package com.br.fiap.oficina.controller;
+package com.br.fiap.oficina.application.controller;
 
-import com.br.fiap.oficina.model.dto.orcamento.OrcamentoRequest;
-import com.br.fiap.oficina.model.dto.ordem.AprovacaoRequest;
-import com.br.fiap.oficina.model.dto.ordem.ConclusaoRequest;
-import com.br.fiap.oficina.model.dto.ordem.OrdemRequest;
-import com.br.fiap.oficina.model.dto.ordem.OrdemResponse;
-import com.br.fiap.oficina.service.OrdemService;
+import com.br.fiap.oficina.application.dto.orcamento.OrcamentoRequest;
+import com.br.fiap.oficina.application.dto.ordem.AprovacaoRequest;
+import com.br.fiap.oficina.application.dto.ordem.ConclusaoRequest;
+import com.br.fiap.oficina.application.dto.ordem.OrdemRequest;
+import com.br.fiap.oficina.application.dto.ordem.OrdemResponse;
+import com.br.fiap.oficina.application.service.OrdemService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

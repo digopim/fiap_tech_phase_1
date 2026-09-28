@@ -1,9 +1,9 @@
-package com.br.fiap.oficina.controller;
+package com.br.fiap.oficina.application.controller;
 
-import com.br.fiap.oficina.model.dto.usuario.UsuarioRequest;
-import com.br.fiap.oficina.model.dto.usuario.UsuarioResponse;
-import com.br.fiap.oficina.model.entity.Usuario;
-import com.br.fiap.oficina.service.UsuarioService;
+import com.br.fiap.oficina.application.dto.usuario.UsuarioRequest;
+import com.br.fiap.oficina.application.dto.usuario.UsuarioResponse;
+import com.br.fiap.oficina.domain.entity.Usuario;
+import com.br.fiap.oficina.application.service.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

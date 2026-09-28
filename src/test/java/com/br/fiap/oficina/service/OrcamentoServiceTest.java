@@ -1,8 +1,8 @@
-package com.br.fiap.oficina.service;
+package com.br.fiap.oficina.application.service;
 
-import com.br.fiap.oficina.model.dto.orcamento.OrcamentoRequest;
-import com.br.fiap.oficina.model.entity.*;
-import com.br.fiap.oficina.model.repository.OrcamentoRepository;
+import com.br.fiap.oficina.application.dto.orcamento.OrcamentoRequest;
+import com.br.fiap.oficina.domain.entity.*;
+import com.br.fiap.oficina.infrastructure.persistence.OrcamentoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

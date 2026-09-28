@@ -1,10 +1,10 @@
-package com.br.fiap.oficina.controller;
+package com.br.fiap.oficina.application.controller;
 
-import com.br.fiap.oficina.model.dto.material.MaterialRequest;
-import com.br.fiap.oficina.model.dto.material.MaterialResponse;
-import com.br.fiap.oficina.model.entity.Material;
-import com.br.fiap.oficina.model.enums.Insumo;
-import com.br.fiap.oficina.service.MaterialService;
+import com.br.fiap.oficina.application.dto.material.MaterialRequest;
+import com.br.fiap.oficina.application.dto.material.MaterialResponse;
+import com.br.fiap.oficina.domain.entity.Material;
+import com.br.fiap.oficina.domain.enums.Insumo;
+import com.br.fiap.oficina.application.service.MaterialService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

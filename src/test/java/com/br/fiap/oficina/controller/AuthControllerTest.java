@@ -1,9 +1,9 @@
-package com.br.fiap.oficina.controller;
+package com.br.fiap.oficina.application.controller;
 
-import com.br.fiap.oficina.model.dto.TokenResponse;
-import com.br.fiap.oficina.model.entity.Credencial;
-import com.br.fiap.oficina.security.JwtUtil;
-import com.br.fiap.oficina.service.CredencialService;
+import com.br.fiap.oficina.application.dto.TokenResponse;
+import com.br.fiap.oficina.domain.entity.Credencial;
+import com.br.fiap.oficina.infrastructure.security.JwtUtil;
+import com.br.fiap.oficina.application.service.CredencialService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

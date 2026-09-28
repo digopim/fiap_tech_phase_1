@@ -1,9 +1,9 @@
-package com.br.fiap.oficina.controller;
+package com.br.fiap.oficina.application.controller;
 
-import com.br.fiap.oficina.model.dto.veiculo.VeiculoRequest;
-import com.br.fiap.oficina.model.dto.veiculo.VeiculoResponse;
-import com.br.fiap.oficina.model.entity.Veiculo;
-import com.br.fiap.oficina.service.VeiculoService;
+import com.br.fiap.oficina.application.dto.veiculo.VeiculoRequest;
+import com.br.fiap.oficina.application.dto.veiculo.VeiculoResponse;
+import com.br.fiap.oficina.domain.entity.Veiculo;
+import com.br.fiap.oficina.application.service.VeiculoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

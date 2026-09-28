@@ -1,10 +1,10 @@
-package com.br.fiap.oficina.controller;
+package com.br.fiap.oficina.application.controller;
 
-import com.br.fiap.oficina.model.dto.servico.ServicoResponse;
-import com.br.fiap.oficina.model.entity.ItemServico;
-import com.br.fiap.oficina.model.entity.Orcamento;
-import com.br.fiap.oficina.model.entity.Servico;
-import com.br.fiap.oficina.service.ServicoService;
+import com.br.fiap.oficina.application.dto.servico.ServicoResponse;
+import com.br.fiap.oficina.domain.entity.ItemServico;
+import com.br.fiap.oficina.domain.entity.Orcamento;
+import com.br.fiap.oficina.domain.entity.Servico;
+import com.br.fiap.oficina.application.service.ServicoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,7 +53,7 @@ class ServicoControllerTest {
 
     @Test
     void concluirServico_callsService() {
-        var req = com.br.fiap.oficina.model.dto.servico.ItemServicoRequest.builder().id(1L).executor(2L).build();
+        var req = com.br.fiap.oficina.application.dto.servico.ItemServicoRequest.builder().id(1L).executor(2L).build();
         ResponseEntity<Void> resp = controller.concluirServico(req);
         // controller calls service; no exception means ok
         assertEquals(200, resp.getStatusCode().value());

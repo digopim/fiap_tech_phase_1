@@ -1,10 +1,10 @@
-package com.br.fiap.oficina.service;
+package com.br.fiap.oficina.application.service;
 
-import com.br.fiap.oficina.model.entity.Caixa;
-import com.br.fiap.oficina.model.entity.Estoque;
-import com.br.fiap.oficina.model.entity.Material;
-import com.br.fiap.oficina.model.enums.Insumo;
-import com.br.fiap.oficina.model.repository.EstoqueRepository;
+import com.br.fiap.oficina.domain.entity.Caixa;
+import com.br.fiap.oficina.domain.entity.Estoque;
+import com.br.fiap.oficina.domain.entity.Material;
+import com.br.fiap.oficina.domain.enums.Insumo;
+import com.br.fiap.oficina.infrastructure.persistence.EstoqueRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

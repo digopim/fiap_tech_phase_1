@@ -1,8 +1,8 @@
-package com.br.fiap.oficina.controller;
+package com.br.fiap.oficina.application.controller;
 
-import com.br.fiap.oficina.model.dto.credencial.CredencialRequest;
-import com.br.fiap.oficina.model.dto.credencial.CredencialResponse;
-import com.br.fiap.oficina.service.CredencialService;
+import com.br.fiap.oficina.application.dto.credencial.CredencialRequest;
+import com.br.fiap.oficina.application.dto.credencial.CredencialResponse;
+import com.br.fiap.oficina.application.service.CredencialService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

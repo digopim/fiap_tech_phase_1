@@ -1,14 +1,14 @@
-package com.br.fiap.oficina.service;
+package com.br.fiap.oficina.application.service;
 
-import com.br.fiap.oficina.model.dto.orcamento.OrcamentoRequest;
-import com.br.fiap.oficina.model.dto.ordem.Formulario;
-import com.br.fiap.oficina.model.dto.ordem.OrdemRequest;
-import com.br.fiap.oficina.model.dto.usuario.UsuarioRequest;
-import com.br.fiap.oficina.model.dto.veiculo.VeiculoRequest;
-import com.br.fiap.oficina.model.entity.*;
-import com.br.fiap.oficina.model.enums.CheckList;
-import com.br.fiap.oficina.model.enums.Perfil;
-import com.br.fiap.oficina.model.enums.Status;
+import com.br.fiap.oficina.application.dto.orcamento.OrcamentoRequest;
+import com.br.fiap.oficina.application.dto.ordem.Formulario;
+import com.br.fiap.oficina.application.dto.ordem.OrdemRequest;
+import com.br.fiap.oficina.application.dto.usuario.UsuarioRequest;
+import com.br.fiap.oficina.application.dto.veiculo.VeiculoRequest;
+import com.br.fiap.oficina.domain.entity.*;
+import com.br.fiap.oficina.domain.enums.CheckList;
+import com.br.fiap.oficina.domain.enums.Perfil;
+import com.br.fiap.oficina.domain.enums.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 class OrdemServiceTest {
 
     @Mock
-    private com.br.fiap.oficina.model.repository.OrdemRepository repository;
+    private com.br.fiap.oficina.infrastructure.persistence.OrdemRepository repository;
     @Mock
     private OrcamentoService orcamentoService;
     @Mock

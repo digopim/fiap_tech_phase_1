@@ -1,11 +1,11 @@
-package com.br.fiap.oficina.service;
+package com.br.fiap.oficina.application.service;
 
-import com.br.fiap.oficina.model.dto.servico.ServicoRequest;
-import com.br.fiap.oficina.model.entity.ItemServico;
-import com.br.fiap.oficina.model.entity.Servico;
-import com.br.fiap.oficina.model.entity.Usuario;
-import com.br.fiap.oficina.model.repository.ItemServicoRepository;
-import com.br.fiap.oficina.model.repository.ServicoRepository;
+import com.br.fiap.oficina.application.dto.servico.ServicoRequest;
+import com.br.fiap.oficina.domain.entity.ItemServico;
+import com.br.fiap.oficina.domain.entity.Servico;
+import com.br.fiap.oficina.domain.entity.Usuario;
+import com.br.fiap.oficina.infrastructure.persistence.ItemServicoRepository;
+import com.br.fiap.oficina.infrastructure.persistence.ServicoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

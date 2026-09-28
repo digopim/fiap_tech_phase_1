@@ -1,8 +1,8 @@
-package com.br.fiap.oficina.service;
+package com.br.fiap.oficina.application.service;
 
-import com.br.fiap.oficina.model.dto.veiculo.VeiculoRequest;
-import com.br.fiap.oficina.model.entity.Veiculo;
-import com.br.fiap.oficina.model.repository.VeiculoRepository;
+import com.br.fiap.oficina.application.dto.veiculo.VeiculoRequest;
+import com.br.fiap.oficina.domain.entity.Veiculo;
+import com.br.fiap.oficina.infrastructure.persistence.VeiculoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

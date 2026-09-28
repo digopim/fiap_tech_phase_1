@@ -1,9 +1,9 @@
-package com.br.fiap.oficina.service;
+package com.br.fiap.oficina.application.service;
 
-import com.br.fiap.oficina.model.dto.usuario.UsuarioRequest;
-import com.br.fiap.oficina.model.entity.Usuario;
-import com.br.fiap.oficina.model.enums.Perfil;
-import com.br.fiap.oficina.model.repository.UsuarioRepository;
+import com.br.fiap.oficina.application.dto.usuario.UsuarioRequest;
+import com.br.fiap.oficina.domain.entity.Usuario;
+import com.br.fiap.oficina.domain.enums.Perfil;
+import com.br.fiap.oficina.infrastructure.persistence.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

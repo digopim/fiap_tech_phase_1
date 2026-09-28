@@ -1,9 +1,9 @@
-package com.br.fiap.oficina.controller;
+package com.br.fiap.oficina.application.controller;
 
-import com.br.fiap.oficina.model.dto.admin.Panorama;
-import com.br.fiap.oficina.model.dto.estoque.EstoqueResponse;
-import com.br.fiap.oficina.model.dto.ordem.OrdemResponse;
-import com.br.fiap.oficina.service.AdminService;
+import com.br.fiap.oficina.application.dto.admin.Panorama;
+import com.br.fiap.oficina.application.dto.estoque.EstoqueResponse;
+import com.br.fiap.oficina.application.dto.ordem.OrdemResponse;
+import com.br.fiap.oficina.application.service.AdminService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

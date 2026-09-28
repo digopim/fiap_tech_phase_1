@@ -1,9 +1,9 @@
-package com.br.fiap.oficina.service;
+package com.br.fiap.oficina.application.service;
 
-import com.br.fiap.oficina.model.dto.credencial.CredencialRequest;
-import com.br.fiap.oficina.model.entity.Credencial;
-import com.br.fiap.oficina.model.entity.Usuario;
-import com.br.fiap.oficina.model.repository.CredencialRepository;
+import com.br.fiap.oficina.application.dto.credencial.CredencialRequest;
+import com.br.fiap.oficina.domain.entity.Credencial;
+import com.br.fiap.oficina.domain.entity.Usuario;
+import com.br.fiap.oficina.infrastructure.persistence.CredencialRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,9 +1,9 @@
-package com.br.fiap.oficina.service;
+package com.br.fiap.oficina.application.service;
 
-import com.br.fiap.oficina.model.entity.Caixa;
-import com.br.fiap.oficina.model.enums.Fluxo;
-import com.br.fiap.oficina.model.enums.Origem;
-import com.br.fiap.oficina.model.repository.CaixaRepository;
+import com.br.fiap.oficina.domain.entity.Caixa;
+import com.br.fiap.oficina.domain.enums.Fluxo;
+import com.br.fiap.oficina.domain.enums.Origem;
+import com.br.fiap.oficina.infrastructure.persistence.CaixaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
